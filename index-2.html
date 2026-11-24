@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building a Smarter PMO · Bird Construction IT PMO</title>
+<meta name="description" content="How the Bird Construction IT PMO moved from SharePoint lists and manual follow-up to one database, one app, automations and AI agents.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+:root{
+  --navy:#142132; --navy2:#1C2D43; --navy3:#24395A; --line:#2E4462;
+  --concrete:#F4F2EC; --concrete2:#E9E5DA; --paper:#FBFAF6; --rule:#DCD6C8;
+  --orange:#E8792B; --orange-d:#A84C15; --yellow:#F2B705;
+  --ink:#3B4655; --steel:#5A6472; --mist:#B9C3CF; --chalk:#ECE8DE;
+  --rail:64px;
+  --f-head:'Space Grotesk',Arial,sans-serif; --f-body:'Inter',Arial,sans-serif; --f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --h1:clamp(46px,6.2vw,112px); --h2:clamp(30px,3.5vw,64px); --h3:clamp(18px,1.45vw,28px);
+  --body:clamp(15px,1.12vw,21px); --lead:clamp(18px,1.5vw,28px); --mono:clamp(11px,.8vw,14px);
+  --gap:clamp(14px,1.4vw,28px); --pad:clamp(16px,1.5vw,30px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+body{margin:0;background:var(--concrete);color:var(--ink);font-family:var(--f-body);font-size:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--f-head);color:var(--navy);margin:0;letter-spacing:-.02em}
+h1{font-size:var(--h1);line-height:1.02;font-weight:700}
+h2{font-size:var(--h2);line-height:1.08;font-weight:700;max-width:20ch}
+h3{font-size:var(--h3);line-height:1.2;font-weight:600}
+p{margin:0}
+b{font-weight:600}
+
+/* ---------- slide frame ---------- */
+.slide{position:relative;min-height:100vh;padding:11vh 7vw 9vh calc(var(--rail) + 6vw);display:flex;flex-direction:column;justify-content:center;overflow:hidden;scroll-snap-align:start}
+.light{background-color:var(--concrete);background-image:linear-gradient(rgba(20,33,50,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(20,33,50,.045) 1px,transparent 1px);background-size:96px 96px}
+.dark{background:var(--navy);color:var(--mist)}
+.blueprint{background-color:#12233A;color:var(--mist);background-image:linear-gradient(rgba(236,232,222,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(236,232,222,.06) 1px,transparent 1px),linear-gradient(rgba(236,232,222,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(236,232,222,.025) 1px,transparent 1px);background-size:120px 120px,120px 120px,24px 24px,24px 24px}
+.dark h1,.dark h2,.dark h3,.blueprint h1,.blueprint h2,.blueprint h3{color:var(--concrete)}
+.inner{width:100%;max-width:1500px;margin:0 auto}
+.eyebrow{font-family:var(--f-mono);font-size:var(--mono);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-d);margin-bottom:clamp(10px,1.2vh,18px);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:28px;height:3px;background:currentColor;display:inline-block}
+.dark .eyebrow,.blueprint .eyebrow{color:var(--orange)}
+.sub{margin-top:clamp(8px,1.4vh,16px);color:var(--steel);font-size:var(--body);max-width:70ch}
+.dark .sub,.blueprint .sub{color:var(--mist)}
+.lead{font-size:var(--lead);line-height:1.4}
+.mono{font-family:var(--f-mono)}
+
+/* cards */
+.card{background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:var(--pad);display:flex;flex-direction:column;gap:clamp(6px,.7vw,12px)}
+.dark .card,.blueprint .card{background:rgba(28,45,67,.92);border-color:var(--line)}
+.card p{color:var(--ink)}
+.dark .card p,.blueprint .card p{color:var(--mist)}
+.grid{display:grid;gap:var(--gap);margin-top:clamp(20px,4vh,48px)}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,72px);align-items:center}
+.note{margin-top:clamp(16px,3vh,32px);padding:clamp(12px,1.2vw,20px) clamp(16px,1.5vw,26px);border-left:5px solid var(--orange);background:var(--chalk);color:var(--ink)}
+.dark .note,.blueprint .note{background:rgba(28,45,67,.92);color:var(--mist)}
+.tag{font-family:var(--f-mono);font-size:var(--mono);font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:6px;background:var(--orange);color:var(--navy);white-space:nowrap}
+.tag.quiet{background:var(--navy3);color:var(--concrete)}
+
+/* reveal */
+.js [data-r]{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--d,0) * 110ms)}
+.js .in [data-r]{opacity:1;transform:none}
+
+/* ---------- chrome: elevation rail, counter, notes ---------- */
+.rail{position:fixed;left:0;top:0;bottom:0;width:var(--rail);background:var(--navy);border-right:1px solid var(--line);z-index:20}
+.rail .track{position:absolute;left:50%;top:9vh;bottom:9vh;width:0}
+.rail .mast{position:absolute;left:-7px;top:0;bottom:0;width:14px;border-left:2px solid #3D5576;border-right:2px solid #3D5576;background:repeating-linear-gradient(45deg,transparent 0 9px,#3D5576 9px 11px)}
+.rail .car{position:absolute;left:-13px;width:26px;height:30px;margin-top:-15px;background:var(--orange);border-radius:3px;box-shadow:0 0 0 3px var(--navy);transition:top .15s linear}
+.rail .car::after{content:"";position:absolute;left:5px;right:5px;top:6px;height:7px;background:var(--navy);border-radius:1px}
+.rail .mark{position:absolute;left:14px;transform:translateY(-50%);font:700 10px/1 var(--f-mono);letter-spacing:.05em;color:#6E819B;background:none;border:0;padding:4px 2px;cursor:pointer}
+.rail .mark.on{color:var(--orange)}
+.rail .label{position:absolute;bottom:2.5vh;left:0;right:0;text-align:center;font:700 9px/1.3 var(--f-mono);color:#6E819B;letter-spacing:.08em}
+.counter{position:fixed;top:18px;right:22px;z-index:20;font:700 12px/1 var(--f-mono);letter-spacing:.1em;color:var(--concrete);background:rgba(20,33,50,.86);padding:9px 12px;border-radius:8px;display:flex;gap:10px;align-items:center}
+.counter span:last-child{color:var(--orange)}
+.hint{position:fixed;right:22px;bottom:20px;z-index:20;font:600 12px/1.4 var(--f-mono);color:var(--concrete);background:rgba(20,33,50,.86);padding:9px 12px;border-radius:8px;transition:opacity .6s}
+.hint.gone{opacity:0;pointer-events:none}
+.notes{position:fixed;left:calc(var(--rail) + 24px);right:24px;bottom:20px;z-index:30;max-width:980px;margin:0 auto;background:rgba(20,33,50,.97);color:var(--concrete);border:1px solid var(--line);border-left:5px solid var(--orange);border-radius:10px;padding:16px 20px;font-size:16px;line-height:1.55;display:none}
+.notes.open{display:block}
+.notes b{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;color:var(--orange);display:block;margin-bottom:6px}
+
+/* ---------- 01 hero ---------- */
+#hero .split{grid-template-columns:1.1fr .9fr}
+#hero h1 em{font-style:normal;color:var(--orange)}
+.hero-sub{margin-top:clamp(14px,2.4vh,28px);font-size:var(--lead);line-height:1.4;color:var(--mist);max-width:30ch}
+.byline{margin-top:clamp(18px,4vh,44px);font-family:var(--f-mono);font-size:var(--mono);letter-spacing:.06em;color:var(--mist)}
+.byline b{color:var(--concrete)}
+.cue{margin-top:clamp(18px,5vh,56px);font:700 var(--mono)/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--orange);display:flex;align-items:center;gap:12px}
+.cue i{width:18px;height:28px;border:2px solid var(--orange);border-radius:10px;position:relative;display:inline-block}
+.cue i::after{content:"";position:absolute;left:50%;top:5px;width:4px;height:6px;margin-left:-2px;background:var(--orange);border-radius:2px;animation:wheel 1.6s ease-in-out infinite}
+@keyframes wheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(9px);opacity:0}100%{opacity:0}}
+.crane{width:100%;max-height:78vh;color:#E9E5DA}
+.crane .draw *{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.4s ease forwards}
+.crane .draw *:nth-child(2n){animation-delay:.25s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.crane .trolley{animation:trolley 10s ease-in-out 1.2s infinite alternate}
+@keyframes trolley{from{transform:translateX(120px)}to{transform:translateX(290px)}}
+.crane .load{animation:bob 3.2s ease-in-out infinite alternate}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(8px)}}
+.crane .floor{opacity:0;animation:rise .7s ease forwards}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- 02 site survey ---------- */
+.ticket{position:relative;padding-top:calc(var(--pad) + 30px)}
+.ticket .strip{position:absolute;left:0;right:0;top:0;height:30px;border-radius:14px 14px 0 0;background:repeating-linear-gradient(-45deg,var(--navy) 0 14px,var(--yellow) 14px 28px)}
+.ticket .stamp{align-self:flex-start;font:700 var(--mono)/1 var(--f-mono);letter-spacing:.12em;color:var(--orange-d);border:2px solid var(--orange-d);padding:6px 9px;border-radius:4px;transform:rotate(-4deg)}
+.js .ticket .stamp{opacity:0;transform:rotate(-4deg) scale(1.8)}
+.js .in .ticket .stamp{animation:stamp .35s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:calc(var(--d,0) * 110ms + .5s)}
+@keyframes stamp{to{opacity:1;transform:rotate(-4deg) scale(1)}}
+
+/* ---------- 03 plan ---------- */
+#plan .split{grid-template-columns:.85fr 1.15fr}
+.elev{width:100%;max-height:58vh}
+.elev .outline{stroke-dasharray:1;stroke-dashoffset:1}
+.in .elev .outline{animation:draw 1.4s ease forwards;animation-delay:calc(var(--d,0) * 160ms)}
+.elev .lvl{opacity:.12;transition:opacity .6s ease;transition-delay:calc(var(--d,0) * 160ms + .3s)}
+.in .elev .lvl{opacity:1}
+.legend{display:flex;flex-direction:column;gap:clamp(6px,1vh,12px)}
+.legend .row{display:grid;grid-template-columns:clamp(46px,4vw,64px) 1fr;gap:16px;align-items:center;padding:clamp(7px,1.1vh,14px) clamp(12px,1.2vw,20px);border:1px solid var(--line);border-radius:12px;background:rgba(28,45,67,.85)}
+.legend .lv{font:700 var(--mono)/1 var(--f-mono);color:var(--navy);background:var(--orange);border-radius:6px;padding:8px 0;text-align:center}
+.legend .row.side .lv{background:var(--mist)}
+.legend h3{font-size:clamp(16px,1.25vw,24px)}
+.legend p{font-size:clamp(13px,.95vw,18px);color:var(--mist)}
+
+/* ---------- 04 foundation ---------- */
+.site{position:relative;margin-top:clamp(20px,4vh,44px)}
+.lists{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(8px,1vw,18px);position:relative;z-index:2}
+.list{background:var(--paper);border:2px solid var(--navy);border-radius:10px;padding:clamp(10px,1vw,16px);display:flex;gap:10px;align-items:center;font-family:var(--f-head);font-weight:600;font-size:clamp(14px,1.1vw,20px);color:var(--navy);transform:translate(var(--sx),var(--sy)) rotate(var(--sr));transition:transform 1s cubic-bezier(.3,1.3,.5,1);transition-delay:calc(var(--d) * 90ms + .2s)}
+.list i{width:22px;height:18px;flex:none;background:linear-gradient(var(--orange),var(--orange)) 0 0/100% 4px no-repeat,linear-gradient(var(--steel),var(--steel)) 0 7px/100% 2px no-repeat,linear-gradient(var(--steel),var(--steel)) 0 12px/100% 2px no-repeat,linear-gradient(var(--steel),var(--steel)) 0 16px/70% 2px no-repeat}
+.in .list{transform:none}
+.link{position:absolute;left:4%;right:4%;top:50%;height:4px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .9s ease 1.3s;z-index:1}
+.in .link{transform:scaleX(1)}
+.slab{margin-top:clamp(10px,1.4vh,16px);height:clamp(64px,10vh,104px);border-radius:6px;position:relative;overflow:hidden;background:#9A9C97;clip-path:inset(100% 0 0 0);transition:clip-path 1.2s cubic-bezier(.4,0,.2,1) .5s;display:flex;align-items:center;justify-content:center}
+.slab::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(20,33,50,.18) 0 3px,transparent 3px 46px),repeating-linear-gradient(0deg,rgba(20,33,50,.18) 0 3px,transparent 3px 30px)}
+.slab span{position:relative;font:700 clamp(14px,1.3vw,24px)/1 var(--f-mono);letter-spacing:.3em;color:var(--navy);background:#B4B5AF;padding:10px 16px;border-radius:4px}
+.in .slab{clip-path:inset(0 0 0 0)}
+
+/* ---------- 05 hub floor plan ---------- */
+.plan{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(20px,3.6vh,44px);border:4px solid var(--navy);border-radius:6px;background:var(--paper)}
+.room{position:relative;padding:clamp(16px,1.6vw,30px);padding-top:clamp(30px,3.4vh,44px);border-right:2px solid var(--navy);border-bottom:2px solid var(--navy);display:flex;flex-direction:column;gap:8px}
+.room:nth-child(3n){border-right:0}
+.room:nth-child(n+4){border-bottom:0}
+.room .no{position:absolute;top:10px;left:clamp(16px,1.6vw,30px);font:700 var(--mono)/1 var(--f-mono);color:var(--orange-d);letter-spacing:.1em}
+.room::after{content:"";position:absolute;right:28px;bottom:-2px;width:46px;height:2px;background:var(--paper)}
+.room:nth-child(n+4)::after{display:none}
+.room p{font-size:clamp(14px,1vw,19px)}
+.js .room{opacity:0;transition:opacity .5s ease;transition-delay:calc(var(--d) * 120ms + .2s)}
+.js .in .room{opacity:1}
+
+/* ---------- 06 adoption ---------- */
+#adoption{background:var(--orange)}
+#adoption h1{max-width:16ch;color:var(--navy)}
+#adoption .eyebrow{color:var(--navy)}
+#adoption .statement-sub{margin-top:clamp(14px,3vh,30px);font-size:var(--lead);color:var(--navy);max-width:40ch}
+.tape{position:absolute;left:-6%;width:112%;height:clamp(38px,5vh,56px);background:var(--yellow);border-top:5px solid var(--navy);border-bottom:5px solid var(--navy);overflow:hidden;display:flex;align-items:center;transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.tape .run{display:flex;white-space:nowrap;font:700 clamp(13px,1vw,18px)/1 var(--f-mono);letter-spacing:.24em;color:var(--navy);animation:marquee 26s linear infinite}
+.tape .run span{padding-right:2.4em}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.tape.t1{top:9vh;transform:rotate(-3deg) translateX(-110%)}
+.tape.t2{bottom:9vh;transform:rotate(2.5deg) translateX(110%)}
+.in .tape.t1{transform:rotate(-3deg)}
+.in .tape.t2{transform:rotate(2.5deg)}
+.tape.t2 .run{animation-direction:reverse}
+
+/* ---------- 07 lifecycle road ---------- */
+.road-wrap{position:relative;margin-top:clamp(20px,4vh,44px);padding-top:clamp(56px,8vh,84px)}
+.stages{position:absolute;left:0;right:0;top:0;display:grid;grid-template-columns:repeat(4,1fr)}
+.stage{text-align:center;padding:0 8px}
+.stage .num{font:700 var(--mono)/1 var(--f-mono);color:var(--orange);letter-spacing:.1em}
+.stage h3{font-size:clamp(15px,1.25vw,24px);margin-top:6px}
+.road{position:relative;height:clamp(70px,10vh,96px);background:#0C1726;border-top:3px solid #3D5576;border-bottom:3px solid #3D5576}
+.road::before{content:"";position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;background:repeating-linear-gradient(90deg,var(--yellow) 0 34px,transparent 34px 62px);opacity:.8}
+.gate{position:absolute;top:-8px;bottom:-8px;width:0}
+.gate .post{position:absolute;left:-7px;bottom:0;width:14px;height:calc(100% + 16px);background:#3D5576;border-radius:3px}
+.gate .arm{position:absolute;left:0;top:50%;width:clamp(70px,8vw,130px);height:12px;margin-top:-6px;border-radius:6px;background:repeating-linear-gradient(90deg,var(--orange) 0 18px,var(--concrete) 18px 36px);transform-origin:6px 50%;transform:translateX(-6px) rotate(0deg);transition:transform .6s ease}
+.gate .gl{position:absolute;left:50%;bottom:calc(-1 * clamp(26px,3.4vh,34px));transform:translateX(-50%);font:700 10px/1 var(--f-mono);color:var(--orange);letter-spacing:.12em;white-space:nowrap}
+.gate:nth-of-type(1){left:25%} .gate:nth-of-type(2){left:50%} .gate:nth-of-type(3){left:75%}
+.in .gate:nth-of-type(1) .arm{transform:translateX(-6px) rotate(-78deg);transition-delay:1s}
+.in .gate:nth-of-type(2) .arm{transform:translateX(-6px) rotate(-78deg);transition-delay:2.6s}
+.in .gate:nth-of-type(3) .arm{transform:translateX(-6px) rotate(-78deg);transition-delay:4.2s}
+.truck{position:absolute;top:50%;left:4%;width:clamp(64px,6vw,96px);transform:translate(-50%,-56%);z-index:2}
+.in .truck{animation:drive 8s ease-in-out .2s forwards}
+@keyframes drive{0%{left:4%}12%{left:20%}20%{left:20%}32%{left:45%}40%{left:45%}52%{left:70%}60%{left:70%}76%{left:89%}100%{left:89%}}
+#lifecycle .grid{margin-top:clamp(40px,7vh,72px)}
+
+/* ---------- 08 automation ---------- */
+.orders{display:flex;flex-direction:column;gap:clamp(8px,1.2vh,12px);margin-top:clamp(18px,3.6vh,40px);position:relative;z-index:2;max-width:1180px}
+.order{display:grid;grid-template-columns:clamp(54px,5vw,80px) 1fr 34px 1.2fr;gap:clamp(10px,1.2vw,20px);align-items:center;background:var(--paper);border:1px solid var(--rule);border-left:5px solid var(--orange);border-radius:8px;padding:clamp(10px,1.4vh,16px) clamp(14px,1.4vw,22px);transform:translateX(-40px);opacity:0;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .6s;transition-delay:calc(var(--d) * 130ms + .15s)}
+.no-js .order,.in .order{transform:none;opacity:1}
+.order .wo{font:700 var(--mono)/1 var(--f-mono);color:var(--orange-d)}
+.order .when{font-weight:600;color:var(--navy)}
+.order .arrow{height:2px;background:var(--steel);position:relative}
+.order .arrow::after{content:"";position:absolute;right:-1px;top:-5px;border:6px solid transparent;border-left:8px solid var(--steel);border-right:0}
+.order .then{color:var(--ink)}
+.order .lbl{display:block;font:700 10px/1 var(--f-mono);letter-spacing:.14em;color:var(--steel);margin-bottom:4px}
+.gears{position:absolute;right:-60px;bottom:-60px;width:min(36vw,520px);opacity:.9;z-index:1;pointer-events:none}
+.gears .g1{transform-origin:200px 200px;animation:spin 18s linear infinite}
+.gears .g2{transform-origin:352px 352px;animation:spin 12s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- 09 agents ---------- */
+#agents .split{grid-template-columns:1fr 1fr;align-items:start;margin-top:clamp(18px,3.6vh,40px)}
+.chat{background:#0E1A2A;border:1px solid var(--line);border-radius:16px;padding:clamp(14px,1.4vw,22px);display:flex;flex-direction:column;gap:12px}
+.chat .bar{display:flex;align-items:center;gap:10px;font:700 var(--mono)/1 var(--f-mono);color:var(--mist);padding-bottom:10px;border-bottom:1px solid var(--line)}
+.chat .dot{width:10px;height:10px;border-radius:50%;background:#3FB27F}
+.msg{max-width:86%;padding:clamp(9px,1vw,14px) clamp(12px,1.1vw,16px);border-radius:14px;font-size:clamp(14px,1vw,18px);line-height:1.45}
+.msg.pm{align-self:flex-end;background:var(--orange);color:var(--navy);border-bottom-right-radius:4px}
+.msg.ai{align-self:flex-start;background:var(--navy3);color:var(--concrete);border-bottom-left-radius:4px}
+.msg .who{display:block;font:700 10px/1 var(--f-mono);letter-spacing:.12em;opacity:.75;margin-bottom:5px}
+.js .msg{opacity:0;transform:translateY(10px)}
+.in .msg{animation:pop .45s ease forwards;animation-delay:var(--t)}
+@keyframes pop{to{opacity:1;transform:none}}
+.stat{display:flex;align-items:flex-end;gap:clamp(12px,1.4vw,22px);padding-bottom:clamp(12px,2vh,22px);border-bottom:1px solid var(--line);margin-bottom:clamp(12px,2vh,22px)}
+.stat .big{font:700 clamp(64px,8vw,148px)/.9 var(--f-head);color:var(--orange);letter-spacing:-.04em}
+.stat p{font-size:var(--lead);line-height:1.3;color:var(--concrete);max-width:16ch;padding-bottom:6px}
+.agents{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,1vw,14px)}
+.agent{background:var(--navy2);border:1px solid var(--line);border-radius:12px;padding:clamp(12px,1.2vw,18px);display:flex;flex-direction:column;gap:8px}
+.agent .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.agent h3{font-size:clamp(15px,1.15vw,21px)}
+.agent p{font-size:clamp(13px,.92vw,17px);color:var(--mist)}
+
+/* ---------- 10 status flow beam ---------- */
+.beam-wrap{position:relative;margin-top:clamp(22px,4.4vh,52px)}
+.ibeam{position:relative;height:clamp(34px,4.6vh,46px)}
+.ibeam::before{content:"";position:absolute;left:0;right:0;top:0;height:9px;background:#8A95A3;border-radius:2px}
+.ibeam::after{content:"";position:absolute;left:0;right:0;bottom:0;height:9px;background:#8A95A3;border-radius:2px}
+.ibeam .web{position:absolute;left:0;right:0;top:9px;bottom:9px;background:#6B7787;background-image:radial-gradient(circle,#B9C3CF 0 3px,transparent 3.5px);background-size:48px 100%;background-position:24px 50%}
+.hoist{position:absolute;top:-16px;left:2%;width:clamp(40px,3.4vw,54px);height:16px;margin-left:calc(clamp(40px,3.4vw,54px) / -2);background:var(--orange);border-radius:3px;z-index:3}
+.hoist::after{content:"";position:absolute;left:50%;top:calc(16px + clamp(34px,4.6vh,46px));width:3px;height:clamp(14px,2.4vh,26px);margin-left:-1.5px;background:var(--orange)}
+.in .hoist{animation:run 7s ease-in-out .3s forwards}
+@keyframes run{0%{left:2%}10%{left:10%}18%{left:10%}28%{left:30%}36%{left:30%}46%{left:50%}54%{left:50%}64%{left:70%}72%{left:70%}82%{left:90%}100%{left:90%}}
+.stations{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1vw,18px);margin-top:clamp(22px,3.6vh,40px)}
+.station{position:relative;background:rgba(28,45,67,.92);border:2px solid var(--line);border-radius:12px;padding:clamp(12px,1.2vw,20px);display:flex;flex-direction:column;gap:8px;transition:border-color .3s,background .3s}
+.station::before{content:"";position:absolute;left:50%;top:calc(-1 * clamp(22px,3.6vh,40px) - 2px);height:clamp(22px,3.6vh,40px);border-left:2px dashed #3D5576}
+.station .n{font:700 clamp(18px,1.6vw,30px)/1 var(--f-head);color:var(--orange)}
+.station h3{font-size:clamp(15px,1.2vw,22px)}
+.station p{font-size:clamp(13px,.92vw,17px);color:var(--mist)}
+.in .station{animation:lit .4s ease forwards;animation-delay:var(--t)}
+@keyframes lit{to{border-color:var(--orange);background:rgba(36,57,90,.95)}}
+
+/* ---------- 11 decisions ---------- */
+.cut{position:relative}
+.cut .stampbig{position:absolute;right:clamp(20px,2.4vw,44px);bottom:clamp(20px,3vh,40px);font:700 clamp(20px,2vw,36px)/1 var(--f-mono);letter-spacing:.16em;color:#B3261E;border:4px solid #B3261E;padding:10px 16px;border-radius:8px;transform:rotate(-8deg)}
+.js .cut .stampbig{opacity:0;transform:rotate(-8deg) scale(2)}
+.in .cut .stampbig{animation:stamp2 .4s cubic-bezier(.3,1.6,.5,1) .9s forwards}
+@keyframes stamp2{to{opacity:1;transform:rotate(-8deg) scale(1)}}
+.cut p{padding-bottom:clamp(56px,9vh,96px)}
+.watches{display:flex;gap:clamp(16px,2.4vw,40px);align-items:center;margin:6px 0}
+.watch{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.watch svg{width:clamp(96px,9vw,150px);height:auto}
+.watch .ring{transition:stroke-dashoffset 2s cubic-bezier(.4,0,.2,1) .4s}
+.in .watch .ring{stroke-dashoffset:var(--off)}
+.watch .v{font:700 clamp(22px,2.2vw,40px)/1 var(--f-head);color:var(--orange-d)}
+.watch .k{font:700 var(--mono)/1.3 var(--f-mono);color:var(--steel);letter-spacing:.06em}
+
+/* ---------- 12 resource pool ---------- */
+#resource .split{grid-template-columns:1fr 1fr}
+.trailer{width:100%;max-height:52vh;transform:translateX(-130%);transition:transform 1.3s cubic-bezier(.25,1.2,.4,1) .2s}
+.in .trailer{transform:none}
+.stack{display:flex;flex-direction:column;gap:var(--gap)}
+.standalone{align-self:flex-start;margin-top:clamp(12px,2vh,20px)}
+
+/* ---------- 13 next ---------- */
+#next .split{grid-template-columns:.8fr 1.2fr}
+.tower{width:100%;max-height:74vh}
+.tower .newfloor{transform:translateY(-190px);transition:transform 2.2s cubic-bezier(.45,0,.2,1) .4s}
+.in .tower .newfloor{transform:none}
+
+/* ---------- 14 lessons ---------- */
+.sign{background:var(--paper);border:3px solid var(--navy);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.sign .hd{background:var(--navy);color:var(--orange);font:700 var(--mono)/1 var(--f-mono);letter-spacing:.16em;padding:12px clamp(16px,1.4vw,24px);display:flex;justify-content:space-between;align-items:center}
+.sign .hd i{width:26px;height:16px;background:var(--orange);border-radius:13px 13px 3px 3px;position:relative}
+.sign .hd i::after{content:"";position:absolute;left:-4px;right:-4px;bottom:-3px;height:4px;background:var(--orange);border-radius:2px}
+.sign .bd{padding:clamp(14px,1.6vw,28px);display:flex;flex-direction:column;gap:8px}
+
+/* ---------- 15 thanks ---------- */
+#thanks{justify-content:flex-start;padding-top:18vh}
+#thanks h1{color:var(--concrete)}
+.skyline{position:absolute;left:0;right:0;bottom:0;width:100%;height:46vh}
+.skyline .win{animation:twinkle 3.6s ease-in-out infinite;animation-delay:var(--w)}
+@keyframes twinkle{0%,100%{opacity:1}50%{opacity:.35}}
+.flag{transform-box:fill-box;transform-origin:0 50%;animation:flap 1.6s ease-in-out infinite alternate}
+@keyframes flap{to{transform:skewY(-6deg) scaleX(.94)}}
+
+/* ---------- responsive / motion ---------- */
+@media (max-width:900px){
+  :root{--rail:0px}
+  .rail,.hint{display:none}
+  .slide{padding:10vh 6vw}
+  .split,#hero .split,#plan .split,#agents .split,#resource .split,#next .split{grid-template-columns:1fr}
+  .g3,.g4,.plan,.stations{grid-template-columns:1fr 1fr}
+  .lists{grid-template-columns:repeat(3,1fr)}
+  .order{grid-template-columns:1fr}
+  .order .arrow{display:none}
+  .gears{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="rail" aria-label="Building progress">
+  <div class="track"><div class="mast"></div><div class="car" id="car"></div></div>
+  <div class="label">ELEV</div>
+</nav>
+<div class="counter" aria-hidden="true"><span id="count">01 / 15</span><span id="ctitle">START</span></div>
+<div class="hint" id="hint">↓ or Space to advance · N for notes · F for fullscreen</div>
+<aside class="notes" id="notes" aria-live="polite"><b>SPEAKER NOTES</b><span id="notetext"></span></aside>
+
+<main>
+
+<!-- 01 HERO -->
+<section class="slide blueprint" id="hero" data-title="Start" data-notes="Hi everyone, I’m King. For the past term I’ve been the Data and Automation intern on Bird’s IT PMO team. Over the next 20 minutes I’ll walk through how we rebuilt the way the PMO runs its projects, the same way you’d put up a building: foundation first, then each floor. I’ll finish with what’s next and what I learned.">
+  <div class="inner split">
+    <div>
+      <p class="eyebrow">Bird Construction · IT PMO · Sept 2025 – Dec 2026</p>
+      <h1>Building a <em>smarter</em> PMO</h1>
+      <p class="hero-sub">How the PMO moved from SharePoint lists and manual follow-up to one database, one app, automations and AI agents.</p>
+      <p class="byline"><b>King</b> · IT PMO Administrator · Data &amp; Automation intern</p>
+      <p class="cue"><i></i>Scroll to start construction</p>
+    </div>
+    <svg class="crane" viewBox="0 0 600 640" role="img" aria-label="A tower crane lifting a steel beam over a building under construction">
+      <g class="draw" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round">
+        <line pathLength="1" x1="0" y1="620" x2="600" y2="620"/>
+        <path pathLength="1" d="M380 620 V140 M420 620 V140"/>
+        <path pathLength="1" d="M380 620 L420 580 L380 540 L420 500 L380 460 L420 420 L380 380 L420 340 L380 300 L420 260 L380 220 L420 180 L380 140"/>
+        <rect pathLength="1" x="352" y="600" width="96" height="20"/>
+        <path pathLength="1" d="M40 120 H560 M40 140 H560"/>
+        <path pathLength="1" d="M40 140 L60 120 L80 140 L100 120 L120 140 L140 120 L160 140 L180 120 L200 140 L220 120 L240 140 L260 120 L280 140 L300 120 L320 140 L340 120 L360 140 L380 120 L400 140 L420 120 L440 140 L460 120 L480 140 L500 120 L520 140 L540 120 L560 140"/>
+        <path pathLength="1" d="M380 120 L400 52 L420 120"/>
+        <path pathLength="1" d="M400 52 L60 120 M400 52 L548 120"/>
+      </g>
+      <rect x="500" y="141" width="58" height="42" fill="#24395A" stroke="#E9E5DA" stroke-width="2"/>
+      <rect x="424" y="142" width="36" height="30" rx="3" fill="#E8792B"/>
+      <rect x="430" y="148" width="24" height="12" fill="#142132"/>
+      <g class="trolley">
+        <rect x="-15" y="141" width="30" height="10" rx="2" fill="#E8792B"/>
+        <g class="load">
+          <line x1="-4" y1="151" x2="-4" y2="322" stroke="#E9E5DA" stroke-width="1.6"/>
+          <line x1="4" y1="151" x2="4" y2="322" stroke="#E9E5DA" stroke-width="1.6"/>
+          <path d="M0 322 v10 a7 7 0 1 1 -7 7" fill="none" stroke="#E8792B" stroke-width="3"/>
+          <path d="M-6 340 L-70 356 M6 340 L70 356" stroke="#E9E5DA" stroke-width="1.6"/>
+          <rect x="-80" y="356" width="160" height="6" fill="#E8792B"/>
+          <rect x="-4" y="362" width="8" height="14" fill="#E8792B"/>
+          <rect x="-80" y="376" width="160" height="6" fill="#E8792B"/>
+        </g>
+      </g>
+      <g stroke="#E9E5DA" stroke-width="2">
+        <rect x="56" y="592" width="248" height="28" fill="#5A6472" class="floor" style="animation-delay:.6s"/>
+        <g class="floor" style="animation-delay:.9s"><rect x="70" y="532" width="220" height="60" fill="#1C2D43"/><rect x="88" y="550" width="28" height="22" fill="#E8792B" stroke="none"/><rect x="132" y="550" width="28" height="22" fill="#2E4462" stroke="none"/><rect x="176" y="550" width="28" height="22" fill="#E8792B" stroke="none"/><rect x="220" y="550" width="28" height="22" fill="#2E4462" stroke="none"/></g>
+        <g class="floor" style="animation-delay:1.2s"><rect x="70" y="472" width="220" height="60" fill="#1C2D43"/><rect x="88" y="490" width="28" height="22" fill="#2E4462" stroke="none"/><rect x="132" y="490" width="28" height="22" fill="#E8792B" stroke="none"/><rect x="176" y="490" width="28" height="22" fill="#2E4462" stroke="none"/><rect x="220" y="490" width="28" height="22" fill="#E8792B" stroke="none"/></g>
+        <g class="floor" style="animation-delay:1.5s"><rect x="70" y="412" width="220" height="60" fill="#1C2D43"/><rect x="88" y="430" width="28" height="22" fill="#E8792B" stroke="none"/><rect x="132" y="430" width="28" height="22" fill="#2E4462" stroke="none"/><rect x="176" y="430" width="28" height="22" fill="#2E4462" stroke="none"/><rect x="220" y="430" width="28" height="22" fill="#E8792B" stroke="none"/></g>
+        <g class="floor" style="animation-delay:1.8s" fill="none" stroke-dasharray="6 6"><rect x="70" y="352" width="220" height="60"/><path d="M70 352 L290 412 M290 352 L70 412"/></g>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- 02 SITE SURVEY -->
+<section class="slide light" id="survey" data-title="Site survey" data-notes="When I started, the PMO’s data lived in a set of SharePoint lists that didn’t really talk to each other. A lot of the process was manual: chasing approvals, sending reminders, writing status reports. The goal of my term was to take that admin load off the PMs so they can spend their time on delivery.">
+  <div class="inner">
+    <p class="eyebrow" data-r>Site survey · Where we started</p>
+    <h2 data-r style="--d:1">The PMO ran on lists, email and manual steps</h2>
+    <div class="grid g3">
+      <div class="card ticket" data-r style="--d:2"><div class="strip"></div><span class="stamp">Deficiency 01</span><h3>Scattered data</h3><p>Project information sat in separate SharePoint lists with no real links between them.</p></div>
+      <div class="card ticket" data-r style="--d:3"><div class="strip"></div><span class="stamp">Deficiency 02</span><h3>Manual follow-up</h3><p>Approvals, reminders and status updates were chased by hand over email.</p></div>
+      <div class="card ticket" data-r style="--d:4"><div class="strip"></div><span class="stamp">Deficiency 03</span><h3>Admin over delivery</h3><p>PMs filled out charters, reports and risk logs from scratch, time taken away from running projects.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 PLAN -->
+<section class="slide blueprint" id="plan" data-title="The plan" data-notes="Here’s the plan, drawn like an elevation. Each level only works because of the one under it. First the data, then an app for PMs to work in, then automations inside that app, then AI agents that let PMs do their admin by chat. The roof is what I’m building now. Off to the side is a separate site office: an app I built for people managers.">
+  <div class="inner">
+    <p class="eyebrow" data-r>The plan · Elevation drawing</p>
+    <h2 data-r style="--d:1">Four levels, each built on the last</h2>
+    <div class="split" style="margin-top:clamp(16px,3vh,36px)">
+      <svg class="elev" viewBox="0 0 460 520" role="img" aria-label="Elevation drawing: foundation Dataverse, level 1 Project Hub, level 2 automation, level 3 AI agents, roof for what is next">
+        <defs><pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="10" stroke="#5A6472" stroke-width="3"/></pattern></defs>
+        <line x1="8" y1="488" x2="452" y2="488" stroke="#ECE8DE" stroke-width="2"/>
+        <g stroke="#6E819B" stroke-width="1.4" fill="none"><path d="M26 88 V488 M18 88 H34 M18 152 H34 M18 248 H34 M18 344 H34 M18 440 H34 M18 488 H34"/></g>
+        <g class="lvl" style="--d:0"><rect x="40" y="440" width="340" height="48" fill="url(#hatch)" stroke="#ECE8DE" stroke-width="2" class="outline" pathLength="1"/><rect x="128" y="452" width="164" height="24" fill="#12233A"/><text x="210" y="469" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="13" fill="#ECE8DE">FDN · DATAVERSE</text></g>
+        <g class="lvl" style="--d:1"><rect x="60" y="344" width="300" height="96" fill="#1C2D43" stroke="#ECE8DE" stroke-width="2" class="outline" pathLength="1"/><rect x="78" y="364" width="30" height="24" fill="#E8792B"/><rect x="312" y="364" width="30" height="24" fill="#E8792B"/><text x="210" y="398" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#ECE8DE">L1 · PROJECT HUB</text></g>
+        <g class="lvl" style="--d:2"><rect x="60" y="248" width="300" height="96" fill="#1C2D43" stroke="#ECE8DE" stroke-width="2" class="outline" pathLength="1"/><rect x="78" y="268" width="30" height="24" fill="#2E4462"/><rect x="312" y="268" width="30" height="24" fill="#E8792B"/><text x="210" y="302" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#ECE8DE">L2 · AUTOMATION</text></g>
+        <g class="lvl" style="--d:3"><rect x="60" y="152" width="300" height="96" fill="#1C2D43" stroke="#ECE8DE" stroke-width="2" class="outline" pathLength="1"/><rect x="78" y="172" width="30" height="24" fill="#E8792B"/><rect x="312" y="172" width="30" height="24" fill="#2E4462"/><text x="210" y="206" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="14" fill="#ECE8DE">L3 · AI AGENTS</text></g>
+        <g class="lvl" style="--d:4"><rect x="60" y="88" width="300" height="64" fill="none" stroke="#E8792B" stroke-width="2" stroke-dasharray="7 6"/><path d="M60 88 L360 152 M360 88 L60 152" stroke="#E8792B" stroke-width="1.2" stroke-dasharray="5 6"/><rect x="146" y="108" width="128" height="24" fill="#12233A"/><text x="210" y="125" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="13" fill="#E8792B">RF · NEXT</text>
+          <path d="M334 88 V22 M346 88 V22 M334 22 H446 M210 22 H334 M334 30 L346 40 L334 50 L346 60 L334 70 L346 80" stroke="#ECE8DE" stroke-width="2" fill="none"/><line x1="240" y1="22" x2="240" y2="60" stroke="#ECE8DE" stroke-width="1.4"/><rect x="226" y="60" width="28" height="8" fill="#E8792B"/></g>
+        <g class="lvl" style="--d:5"><rect x="398" y="420" width="54" height="68" fill="none" stroke="#B9C3CF" stroke-width="2" stroke-dasharray="5 5"/><text x="425" y="458" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="11" fill="#B9C3CF">RP</text></g>
+      </svg>
+      <div class="legend">
+        <div class="row" data-r style="--d:2"><span class="lv">FDN</span><div><h3>Data foundation</h3><p>One database for the whole PMO</p></div></div>
+        <div class="row" data-r style="--d:3"><span class="lv">L1</span><div><h3>Project Hub</h3><p>One app where PMs run their projects</p></div></div>
+        <div class="row" data-r style="--d:4"><span class="lv">L2</span><div><h3>Automation</h3><p>Flows and scripts that remove manual steps</p></div></div>
+        <div class="row" data-r style="--d:5"><span class="lv">L3</span><div><h3>AI agents</h3><p>PMs update projects by chatting</p></div></div>
+        <div class="row" data-r style="--d:6"><span class="lv">RF</span><div><h3>What’s next</h3><p>One standard delivery lifecycle across it all</p></div></div>
+        <div class="row side" data-r style="--d:7"><span class="lv">RP</span><div><h3>Site office: Resource Pool</h3><p>A separate app for people managers</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 FOUNDATION -->
+<section class="slide light" id="foundation" data-title="Foundation" data-level="FDN" data-notes="The first big piece was migrating the PMO’s whole database from SharePoint lists into Dataverse, Microsoft’s relational database for the Power Platform. Instead of separate lists, projects now link to their own risks, issues, changes and reports. Everything else in this talk reads from and writes to it. We also get audit history, and that has already paid off: we recovered a deleted project record from the recycle bin.">
+  <div class="inner">
+    <p class="eyebrow" data-r>Foundation · Data</p>
+    <h2 data-r style="--d:1">Moved the entire PMO database from SharePoint to Dataverse</h2>
+    <div class="site">
+      <div class="link"></div>
+      <div class="lists">
+        <div class="list" style="--sx:-18px;--sy:-40px;--sr:-9deg;--d:0"><i></i>Projects</div>
+        <div class="list" style="--sx:14px;--sy:26px;--sr:7deg;--d:1"><i></i>Risks</div>
+        <div class="list" style="--sx:-10px;--sy:-30px;--sr:-5deg;--d:2"><i></i>Issues</div>
+        <div class="list" style="--sx:22px;--sy:34px;--sr:10deg;--d:3"><i></i>Changes</div>
+        <div class="list" style="--sx:-6px;--sy:-44px;--sr:-7deg;--d:4"><i></i>Reports</div>
+      </div>
+    </div>
+    <div class="slab"><span>DATAVERSE</span></div>
+    <div class="grid g3" style="margin-top:clamp(16px,3vh,34px)">
+      <div class="card" data-r style="--d:6"><h3>Connected data</h3><p>Projects link to their own risks, issues, actions, changes and reports.</p></div>
+      <div class="card" data-r style="--d:7"><h3>One source of truth</h3><p>Every app, flow and agent reads from and writes to the same database.</p></div>
+      <div class="card" data-r style="--d:8"><h3>Built-in safety</h3><p>Audit history shows who changed what, and deleted records can be restored.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 PROJECT HUB -->
+<section class="slide light" id="hub" data-title="Level 1" data-level="L1" data-notes="On top of that foundation I built Project Hub, the model-driven app the PMO works in. Everything about a project is in one place: its lifecycle stage, risks and issues, change requests and approvals, weekly status reports and lessons learned. Think of it as the floor plan for how a project is run.">
+  <div class="inner">
+    <p class="eyebrow" data-r>Level 01 · Project Hub</p>
+    <h2 data-r style="--d:1">Project Hub: one place to run every project</h2>
+    <p class="sub" data-r style="--d:2">A model-driven Power App built on the PMO’s Dataverse database</p>
+    <div class="plan">
+      <div class="room" style="--d:1"><span class="no">ROOM 101</span><h3>Lifecycle stages</h3><p>Four stages with an approval gate between each</p></div>
+      <div class="room" style="--d:2"><span class="no">ROOM 102</span><h3>Initiation survey</h3><p>Classifies each project and sets its charter type</p></div>
+      <div class="room" style="--d:3"><span class="no">ROOM 103</span><h3>Risks and issues</h3><p>Logged per project, with linked follow-up actions</p></div>
+      <div class="room" style="--d:4"><span class="no">ROOM 104</span><h3>Change requests</h3><p>Routed to several approvers, each tracked on their own</p></div>
+      <div class="room" style="--d:5"><span class="no">ROOM 105</span><h3>Status reports</h3><p>Weekly health, progress and next steps</p></div>
+      <div class="room" style="--d:6"><span class="no">ROOM 106</span><h3>Lessons learned</h3><p>Collected into one shared table across projects</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 ADOPTION -->
+<section class="slide" id="adoption" data-title="In service" data-notes="The part I’m proudest of is that it’s actually used. The whole PMO works in Project Hub regularly. This isn’t a prototype sitting on a shelf. It’s in service.">
+  <div class="tape t1" aria-hidden="true"><div class="run"><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span></div></div>
+  <div class="inner">
+    <p class="eyebrow" data-r>Occupancy permit</p>
+    <h1 data-r style="--d:1">The entire PMO now uses Project Hub regularly</h1>
+    <p class="statement-sub" data-r style="--d:2">Projects, risks, changes, approvals and status reports all live in one app.</p>
+  </div>
+  <div class="tape t2" aria-hidden="true"><div class="run"><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span></div></div>
+</section>
+
+<!-- 07 LIFECYCLE -->
+<section class="slide blueprint" id="lifecycle" data-title="Lifecycle" data-notes="Every project moves through four stages as a business process flow. Before it starts, the initiation survey classifies it with a decision tree, so the PM doesn’t need to know the rules. Between stages there’s an approval gate: the PM clicks a button, a Power Automate flow routes the approval, and the decision is recorded. The stage’s documents can be generated right from the app.">
+  <div class="inner">
+    <p class="eyebrow" data-r>Level 01 · Inside Project Hub</p>
+    <h2 data-r style="--d:1">A project lifecycle with approval gates built in</h2>
+    <div class="road-wrap">
+      <div class="stages">
+        <div class="stage"><span class="num">STAGE 1</span><h3>Initiation</h3></div>
+        <div class="stage"><span class="num">STAGE 2</span><h3>Planning</h3></div>
+        <div class="stage"><span class="num">STAGE 3</span><h3>Execution and monitoring</h3></div>
+        <div class="stage"><span class="num">STAGE 4</span><h3>Closing</h3></div>
+      </div>
+      <div class="road">
+        <div class="gate"><div class="post"></div><div class="arm"></div><span class="gl">GATE 1</span></div>
+        <div class="gate"><div class="post"></div><div class="arm"></div><span class="gl">GATE 2</span></div>
+        <div class="gate"><div class="post"></div><div class="arm"></div><span class="gl">GATE 3</span></div>
+        <svg class="truck" viewBox="0 0 96 52" aria-hidden="true"><rect x="2" y="10" width="58" height="26" rx="3" fill="#E8792B"/><path d="M60 18 H80 L92 30 V38 H60 Z" fill="#F2B705"/><rect x="68" y="21" width="12" height="9" fill="#12233A"/><circle cx="20" cy="40" r="8" fill="#12233A" stroke="#ECE8DE" stroke-width="2.5"/><circle cx="76" cy="40" r="8" fill="#12233A" stroke="#ECE8DE" stroke-width="2.5"/><text x="31" y="27" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="9" fill="#12233A">PROJECT</text></svg>
+      </div>
+    </div>
+    <div class="grid g2">
+      <div class="card" data-r style="--d:3"><h3>Before it starts</h3><p>An initiation survey asks: program or project, acquisition, infrastructure, cost and duration. It then sets the project type and charter type automatically.</p></div>
+      <div class="card" data-r style="--d:4"><h3>At every gate</h3><p>One button requests approval. A flow routes it and records the decision, and the stage’s documents can be generated on the spot.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 AUTOMATION -->
+<section class="slide light" id="automation" data-title="Level 2" data-level="L2" data-notes="This is the automation level: Power Automate flows plus scripts inside the app. None of these is huge on its own, but together they remove a lot of small manual steps. A triggered risk opens its follow-up straight away, status reports can start from last week’s, approvals route themselves, PMs get a weekly nudge, and lessons learned go from Excel into the database in one upload.">
+  <svg class="gears" viewBox="0 0 440 440" aria-hidden="true">
+    <g class="g1"><circle cx="200" cy="200" r="118" fill="none" stroke="#DCD6C8" stroke-width="34" stroke-dasharray="26 24"/><circle cx="200" cy="200" r="104" fill="#E9E5DA" stroke="#DCD6C8" stroke-width="2"/><circle cx="200" cy="200" r="30" fill="#F4F2EC" stroke="#DCD6C8" stroke-width="10"/></g>
+    <g class="g2"><circle cx="352" cy="352" r="70" fill="none" stroke="#F0B58A" stroke-width="28" stroke-dasharray="20 18"/><circle cx="352" cy="352" r="58" fill="#F6D2B5"/><circle cx="352" cy="352" r="18" fill="#F4F2EC" stroke="#F0B58A" stroke-width="8"/></g>
+  </svg>
+  <div class="inner">
+    <p class="eyebrow" data-r>Level 02 · Automation</p>
+    <h2 data-r style="--d:1">Automations that take out the busywork</h2>
+    <div class="orders">
+      <div class="order" style="--d:1"><span class="wo">WO-01</span><p class="when"><span class="lbl">WHEN</span>A PM marks a risk as triggered</p><span class="arrow"></span><p class="then"><span class="lbl">THEN</span>A linked issue or action opens, already tied to the risk</p></div>
+      <div class="order" style="--d:2"><span class="wo">WO-02</span><p class="when"><span class="lbl">WHEN</span>A PM copies an old status report</p><span class="arrow"></span><p class="then"><span class="lbl">THEN</span>A new report opens pre-filled and ready to edit</p></div>
+      <div class="order" style="--d:3"><span class="wo">WO-03</span><p class="when"><span class="lbl">WHEN</span>A change request is created</p><span class="arrow"></span><p class="then"><span class="lbl">THEN</span>Approver records are set up and the approval is routed</p></div>
+      <div class="order" style="--d:4"><span class="wo">WO-04</span><p class="when"><span class="lbl">WHEN</span>Every week</p><span class="arrow"></span><p class="then"><span class="lbl">THEN</span>PMs get an email about changes and decisions awaiting approval</p></div>
+      <div class="order" style="--d:5"><span class="wo">WO-05</span><p class="when"><span class="lbl">WHEN</span>A PM uploads a lessons learned file</p><span class="arrow"></span><p class="then"><span class="lbl">THEN</span>Each row lands in the database, and failed rows are emailed back</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 AGENTS -->
+<section class="slide dark" id="agents" data-title="Level 3" data-level="L3" data-notes="The top working floor is AI. I built agents in Microsoft Copilot Studio that connect to our Dataverse database through an MCP server, so PMs can do their admin by chatting instead of filling out forms. The Job Master and Project Plan agents are up and running, and the PMO assistant handles status reports and risks and issues. The headline: PMs now spend half the time they used to on status reports and risks and issues.">
+  <div class="inner">
+    <p class="eyebrow" data-r>Level 03 · AI agents</p>
+    <h2 data-r style="--d:1">PMs update their projects by chatting</h2>
+    <p class="sub" data-r style="--d:2">Built in Copilot Studio and connected to the PMO database through an MCP server</p>
+    <div class="split">
+      <div class="chat" data-r style="--d:3">
+        <div class="bar"><span class="dot"></span>PMO ASSISTANT</div>
+        <p class="msg pm" style="--t:.5s"><span class="who">PM</span>Draft this week’s status report for my project.</p>
+        <p class="msg ai" style="--t:1.3s"><span class="who">AGENT</span>Here are your active projects. Which one is it for?</p>
+        <p class="msg pm" style="--t:2.1s"><span class="who">PM</span>The first one.</p>
+        <p class="msg ai" style="--t:2.9s"><span class="who">AGENT</span>Here’s a draft based on this week’s project emails. Want to change anything before I save it?</p>
+      </div>
+      <div>
+        <div class="stat" data-r style="--d:4"><span class="big" data-count="50" data-suffix="%">50%</span><p>less time PMs spend on status reports and risks and issues</p></div>
+        <div class="agents">
+          <div class="agent" data-r style="--d:5"><div class="top"><h3>Job Master</h3><span class="tag">Live</span></div><p>Guides PMs through the Job Master</p></div>
+          <div class="agent" data-r style="--d:6"><div class="top"><h3>Project Plan</h3><span class="tag">Live</span></div><p>Helps PMs build out the plan</p></div>
+          <div class="agent" data-r style="--d:7"><div class="top"><h3>Status reports</h3><span class="tag quiet">Skill</span></div><p>Drafts the weekly report from project emails</p></div>
+          <div class="agent" data-r style="--d:8"><div class="top"><h3>Risks and issues</h3><span class="tag quiet">Skill</span></div><p>Creates, closes, lists and triggers them</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 STATUS FLOW -->
+<section class="slide blueprint" id="statusflow" data-title="How a skill works" data-notes="Here’s what a skill actually does, using status reports as the example. The agent finds the PM’s project, drafts the report from recent project emails, lets the PM review it, condenses the summary to fit the 300-character field, then saves it through a fixed workflow. The rule across every skill: the AI can draft and talk, but people are always looked up, never guessed, and every save goes through a predictable workflow.">
+  <div class="inner">
+    <p class="eyebrow" data-r>Level 03 · How a skill works</p>
+    <h2 data-r style="--d:1">A status report, start to finish</h2>
+    <div class="beam-wrap">
+      <div class="ibeam"><div class="web"></div><div class="hoist"></div></div>
+      <div class="stations">
+        <div class="station" style="--t:1s"><span class="n">01</span><h3>Find the project</h3><p>Lists the PM’s active projects to pick from</p></div>
+        <div class="station" style="--t:2.25s"><span class="n">02</span><h3>Draft from email</h3><p>Reads recent project emails and writes a draft</p></div>
+        <div class="station" style="--t:3.5s"><span class="n">03</span><h3>Review</h3><p>The PM edits until it’s right</p></div>
+        <div class="station" style="--t:4.75s"><span class="n">04</span><h3>Condense</h3><p>Summary trimmed to the 300-character limit</p></div>
+        <div class="station" style="--t:6s"><span class="n">05</span><h3>Save</h3><p>A fixed workflow writes it to the database</p></div>
+      </div>
+    </div>
+    <p class="note" data-r style="--d:3">In every skill, people are looked up and never guessed, and every save goes through a fixed workflow.</p>
+  </div>
+</section>
+
+<!-- 11 DECISIONS -->
+<section class="slide light" id="decisions" data-title="Site decisions" data-notes="Two decisions I want to highlight. First, I recommended dropping a planned Schedule skill: adding tasks by chat hit platform limits and saved little time, so the effort went to the skills PMs actually needed. Second, when the agent was slow in Teams, I measured before changing anything. The exact same request took over 10 minutes midweek and about five and a half on a weekend, which told us the problem was capacity under load, not the design. That led to targeted fixes instead of guesswork.">
+  <div class="inner">
+    <p class="eyebrow" data-r>Site decisions · Judgment calls</p>
+    <h2 data-r style="--d:1">Building the right things, fast</h2>
+    <div class="grid g2">
+      <div class="card cut" data-r style="--d:2"><span class="stampbig">SCOPE CUT</span><h3>Dropped the Schedule skill</h3><p>Adding tasks by chat hit platform limits and would have saved PMs little time. I recommended cutting it and putting the effort into status reports and risks, where the time savings were.</p></div>
+      <div class="card" data-r style="--d:3"><h3>Measured the slowdown</h3>
+        <div class="watches">
+          <div class="watch"><svg viewBox="0 0 140 150" aria-hidden="true"><rect x="62" y="0" width="16" height="12" rx="2" fill="#5A6472"/><circle cx="70" cy="82" r="56" fill="#FBFAF6" stroke="#DCD6C8" stroke-width="12"/><circle class="ring" cx="70" cy="82" r="56" fill="none" stroke="#E8792B" stroke-width="12" stroke-dasharray="351.9" stroke-dashoffset="351.9" transform="rotate(-90 70 82)" style="--off:0"/><line x1="70" y1="82" x2="70" y2="44" stroke="#142132" stroke-width="4" stroke-linecap="round"/><circle cx="70" cy="82" r="5" fill="#142132"/></svg><span class="v"><span data-count="10">10</span>+ min</span><span class="k">WEEKDAY, BUSINESS HOURS</span></div>
+          <div class="watch"><svg viewBox="0 0 140 150" aria-hidden="true"><rect x="62" y="0" width="16" height="12" rx="2" fill="#5A6472"/><circle cx="70" cy="82" r="56" fill="#FBFAF6" stroke="#DCD6C8" stroke-width="12"/><circle class="ring" cx="70" cy="82" r="56" fill="none" stroke="#142132" stroke-width="12" stroke-dasharray="351.9" stroke-dashoffset="351.9" transform="rotate(-90 70 82)" style="--off:162.5"/><line x1="70" y1="82" x2="87" y2="117" stroke="#142132" stroke-width="4" stroke-linecap="round"/><circle cx="70" cy="82" r="5" fill="#142132"/></svg><span class="v">5 min 23 s</span><span class="k">SAME REQUEST, WEEKEND</span></div>
+        </div>
+        <p>Same agent, same request. The cause was capacity under load, not a broken design, which pointed to targeted fixes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 RESOURCE POOL -->
+<section class="slide light" id="resource" data-title="Site office" data-notes="Separate from the PMO stack, I built the Resource Pool app from scratch for people managers. It’s a canvas Power App that tracks workers, their details, teams and skills. A lot of the work was making the data reliable: choosing teams from a list instead of free text, and fixing a bug where saving a profile could silently wipe someone’s team.">
+  <div class="inner">
+    <p class="eyebrow" data-r>Site office · A separate build</p>
+    <h2 data-r style="--d:1">Resource Pool, built from scratch</h2>
+    <div class="split" style="margin-top:clamp(18px,3.6vh,40px)">
+      <div>
+        <svg class="trailer" viewBox="0 0 420 260" role="img" aria-label="A site office trailer labelled Resource Pool">
+          <line x1="0" y1="236" x2="420" y2="236" stroke="#142132" stroke-width="3"/>
+          <rect x="56" y="214" width="34" height="22" fill="#5A6472"/><rect x="190" y="214" width="34" height="22" fill="#5A6472"/><rect x="324" y="214" width="34" height="22" fill="#5A6472"/>
+          <rect x="30" y="76" width="360" height="138" rx="4" fill="#FBFAF6" stroke="#142132" stroke-width="3"/>
+          <path d="M50 80 V210 M70 80 V210 M250 80 V210 M270 80 V210 M290 80 V210 M370 80 V210" stroke="#DCD6C8" stroke-width="2"/>
+          <rect x="22" y="64" width="376" height="14" rx="3" fill="#142132"/>
+          <rect x="84" y="104" width="78" height="52" fill="#CFE0EE" stroke="#142132" stroke-width="3"/><line x1="123" y1="104" x2="123" y2="156" stroke="#142132" stroke-width="2"/>
+          <rect x="300" y="104" width="62" height="52" fill="#CFE0EE" stroke="#142132" stroke-width="3"/>
+          <rect x="192" y="100" width="56" height="114" fill="#E8792B" stroke="#142132" stroke-width="3"/><circle cx="238" cy="160" r="4" fill="#142132"/>
+          <rect x="182" y="214" width="76" height="8" fill="#8A95A3"/><rect x="174" y="222" width="92" height="8" fill="#8A95A3"/>
+          <path d="M150 64 V44 M270 64 V44" stroke="#142132" stroke-width="3"/>
+          <rect x="112" y="16" width="196" height="32" rx="4" fill="#142132"/>
+          <text x="210" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="15" letter-spacing="2" fill="#E8792B">RESOURCE POOL</text>
+        </svg>
+        <p class="lead" data-r style="--d:2;margin-top:clamp(12px,2vh,22px)">A canvas Power App that people managers use to keep track of their workers.</p>
+        <span class="tag quiet standalone" data-r style="--d:3">Standalone · separate from Project Hub</span>
+      </div>
+      <div class="stack">
+        <div class="card" data-r style="--d:3"><h3>Worker profiles</h3><p>Name, title and team for each person in one place</p></div>
+        <div class="card" data-r style="--d:4"><h3>Skills</h3><p>What each worker can do, recorded on their profile</p></div>
+        <div class="card" data-r style="--d:5"><h3>Clean data</h3><p>Teams picked from existing values, and edits can’t wipe a field by accident</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 NEXT -->
+<section class="slide blueprint" id="next" data-title="Roof" data-level="RF" data-notes="What I’m working on now is rebuilding the project delivery model from scratch. There will be two models, a general waterfall and a customizable hybrid, and each becomes a business process flow in Project Hub. They’re aligned to the latest PMBOK and agile practice, and they bring the agents into each stage. The first example is generating the project charter automatically when a project moves past Initiation.">
+  <div class="inner">
+    <div class="split">
+      <svg class="tower" viewBox="0 0 420 480" role="img" aria-label="A crane lowering a new floor labelled delivery model onto the top of the building">
+        <defs><clipPath id="belowjib"><rect x="0" y="44" width="420" height="440"/></clipPath></defs>
+        <line x1="0" y1="462" x2="420" y2="462" stroke="#ECE8DE" stroke-width="2"/>
+        <rect x="60" y="424" width="270" height="38" fill="#5A6472" stroke="#ECE8DE" stroke-width="2"/>
+        <g stroke="#ECE8DE" stroke-width="2"><rect x="70" y="344" width="250" height="80" fill="#1C2D43"/><rect x="70" y="264" width="250" height="80" fill="#1C2D43"/><rect x="70" y="184" width="250" height="80" fill="#1C2D43"/></g>
+        <g fill="#E8792B"><rect x="90" y="364" width="30" height="22"/><rect x="230" y="364" width="30" height="22"/><rect x="160" y="284" width="30" height="22"/><rect x="270" y="284" width="30" height="22"/><rect x="90" y="204" width="30" height="22"/><rect x="200" y="204" width="30" height="22"/></g>
+        <g fill="#2E4462"><rect x="160" y="364" width="30" height="22"/><rect x="90" y="284" width="30" height="22"/><rect x="270" y="204" width="30" height="22"/></g>
+        <text x="195" y="448" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#ECE8DE">FDN</text>
+        <g stroke="#B9C3CF" stroke-width="1.6" stroke-dasharray="5 5" fill="none"><path d="M62 184 V96 M328 184 V96 M62 140 H328 M62 96 H328 M62 184 L328 96"/></g>
+        <path d="M366 462 V36 M382 462 V36" stroke="#ECE8DE" stroke-width="2.2"/>
+        <path d="M366 462 L382 430 L366 398 L382 366 L366 334 L382 302 L366 270 L382 238 L366 206 L382 174 L366 142 L382 110 L366 78 L382 46" stroke="#ECE8DE" stroke-width="1.6" fill="none"/>
+        <path d="M110 30 H410 M110 44 H410" stroke="#ECE8DE" stroke-width="2.2"/>
+        <rect x="384" y="44" width="26" height="26" fill="#24395A" stroke="#ECE8DE" stroke-width="2"/>
+        <rect x="180" y="42" width="30" height="8" fill="#E8792B"/>
+        <g clip-path="url(#belowjib)"><g class="newfloor">
+          <line x1="193" y1="-400" x2="193" y2="104" stroke="#ECE8DE" stroke-width="1.6"/><line x1="197" y1="-400" x2="197" y2="104" stroke="#ECE8DE" stroke-width="1.6"/>
+          <path d="M195 104 L80 116 M195 104 L310 116" stroke="#ECE8DE" stroke-width="1.6"/>
+          <rect x="70" y="116" width="250" height="68" fill="#E8792B" stroke="#ECE8DE" stroke-width="2"/>
+          <text x="195" y="156" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="15" letter-spacing="1.5" fill="#12233A">DELIVERY MODEL</text>
+        </g></g>
+      </svg>
+      <div>
+        <p class="eyebrow" data-r>Roof · What’s next</p>
+        <h2 data-r style="--d:1">Rebuilding the project delivery model</h2>
+        <p class="sub" data-r style="--d:2">From mostly manual processes to automations and agents, aligned to the latest PMBOK and agile practice</p>
+        <div class="grid g2" style="margin-top:clamp(16px,3vh,32px)">
+          <div class="card" data-r style="--d:3"><h3>Waterfall</h3><p>The general model: predictive stages with approval gates between them.</p></div>
+          <div class="card" data-r style="--d:4"><h3>Hybrid</h3><p>A customizable model mixing fixed milestones with iterative delivery.</p></div>
+        </div>
+        <p class="note" data-r style="--d:5">Each model becomes a business process flow in Project Hub, with agents built into each stage, starting with a charter generated at Initiation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 LESSONS -->
+<section class="slide light" id="lessons" data-title="Site rules" data-notes="To wrap up, four things I’m taking away. Get the data right first. With AI, let it handle the language but put the important parts, like saving records, behind something predictable. Saying no to a feature can be the most useful recommendation you make. And measure before you fix.">
+  <div class="inner">
+    <p class="eyebrow" data-r>Site rules · What I learned</p>
+    <h2 data-r style="--d:1">Four lessons I’m taking with me</h2>
+    <div class="grid g2">
+      <div class="sign" data-r style="--d:2"><div class="hd">RULE 01<i></i></div><div class="bd"><h3>Data first</h3><p>Every app and agent was only as good as the database under it.</p></div></div>
+      <div class="sign" data-r style="--d:3"><div class="hd">RULE 02<i></i></div><div class="bd"><h3>Guarantee the important parts</h3><p>Let the AI draft and talk, but send every save through a fixed workflow.</p></div></div>
+      <div class="sign" data-r style="--d:4"><div class="hd">RULE 03<i></i></div><div class="bd"><h3>Saying no is part of the job</h3><p>Cutting a low-value feature freed time for work PMs actually needed.</p></div></div>
+      <div class="sign" data-r style="--d:5"><div class="hd">RULE 04<i></i></div><div class="bd"><h3>Measure before fixing</h3><p>One timed test changed the whole conversation about performance.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 THANKS -->
+<section class="slide dark" id="thanks" data-title="Topping out" data-notes="Thanks for listening. In construction, when the last beam goes on, you have a topping-out ceremony. Consider this mine. Happy to take questions, or show any of these live.">
+  <div class="inner">
+    <p class="eyebrow" data-r>Topping out</p>
+    <h1 data-r style="--d:1">Thank you</h1>
+    <p class="hero-sub" data-r style="--d:2">Questions?</p>
+    <p class="byline" data-r style="--d:3"><b>King</b> · IT PMO Administrator · Data &amp; Automation intern</p>
+  </div>
+  <svg class="skyline" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <g fill="#1C2D43"><rect x="0" y="190" width="120" height="110"/><rect x="130" y="150" width="90" height="150"/><rect x="230" y="210" width="130" height="90"/><rect x="900" y="170" width="110" height="130"/><rect x="1020" y="200" width="80" height="100"/><rect x="1110" y="140" width="90" height="160"/></g>
+    <g stroke="#2E4462" stroke-width="3" fill="none"><path d="M820 300 V40 M836 300 V40 M560 40 H900 M560 54 H900"/><path d="M820 300 L836 270 L820 240 L836 210 L820 180 L836 150 L820 120 L836 90 L820 60"/></g>
+    <rect x="470" y="70" width="260" height="230" fill="#24395A"/>
+    <g fill="#E8792B">
+      <rect class="win" style="--w:0s" x="494" y="96" width="34" height="24"/><rect class="win" style="--w:1.2s" x="548" y="96" width="34" height="24"/><rect class="win" style="--w:.6s" x="618" y="96" width="34" height="24"/><rect class="win" style="--w:2s" x="672" y="96" width="34" height="24"/>
+      <rect class="win" style="--w:.9s" x="494" y="146" width="34" height="24"/><rect class="win" style="--w:2.6s" x="618" y="146" width="34" height="24"/><rect class="win" style="--w:1.5s" x="672" y="146" width="34" height="24"/>
+      <rect class="win" style="--w:.3s" x="548" y="196" width="34" height="24"/><rect class="win" style="--w:1.9s" x="618" y="196" width="34" height="24"/><rect class="win" style="--w:2.9s" x="494" y="246" width="34" height="24"/><rect class="win" style="--w:.7s" x="672" y="246" width="34" height="24"/>
+    </g>
+    <g fill="#2E4462"><rect x="548" y="146" width="34" height="24"/><rect x="494" y="196" width="34" height="24"/><rect x="672" y="196" width="34" height="24"/><rect x="548" y="246" width="34" height="24"/><rect x="618" y="246" width="34" height="24"/></g>
+    <path d="M600 70 L586 46 H592 L580 28 H588 L600 6 L612 28 H620 L608 46 H614 Z" fill="#3FB27F"/>
+    <line x1="700" y1="70" x2="700" y2="14" stroke="#B9C3CF" stroke-width="3"/>
+    <path class="flag" d="M700 14 H736 L728 24 L736 34 H700 Z" fill="#E8792B"/>
+  </svg>
+</section>
+
+</main>
+
+<script>
+(function(){
+  var root=document.documentElement; root.classList.remove('no-js'); root.classList.add('js');
+  var slides=[].slice.call(document.querySelectorAll('section.slide'));
+  var n=slides.length, cur=0;
+  var count=document.getElementById('count'), ctitle=document.getElementById('ctitle');
+  var notes=document.getElementById('notes'), notetext=document.getElementById('notetext');
+  var hint=document.getElementById('hint'), car=document.getElementById('car');
+  var track=document.querySelector('.rail .track');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function countUp(el){
+    var target=+el.getAttribute('data-count'), suf=el.getAttribute('data-suffix')||'';
+    if(reduce){el.textContent=target+suf;return}
+    var t0=null;
+    function step(t){ if(!t0)t0=t; var p=Math.min(1,(t-t0)/1300); var e=1-Math.pow(1-p,3); el.textContent=Math.round(target*e)+suf; if(p<1)requestAnimationFrame(step); }
+    el.textContent='0'+suf; requestAnimationFrame(step);
+  }
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting && !e.target.classList.contains('in')){
+      e.target.classList.add('in');
+      [].forEach.call(e.target.querySelectorAll('[data-count]'),countUp);
+    }})},{threshold:.35});
+  slides.forEach(function(s){io.observe(s)});
+
+  // elevation rail markers
+  var marks=[];
+  slides.forEach(function(s,i){
+    var lv=s.getAttribute('data-level'); if(!lv)return;
+    var b=document.createElement('button'); b.className='mark'; b.textContent=lv; b.setAttribute('aria-label','Go to '+s.getAttribute('data-title'));
+    b.addEventListener('click',function(){go(i)}); track.appendChild(b); marks.push({b:b,s:s});
+  });
+  function maxScroll(){return Math.max(1,document.documentElement.scrollHeight-innerHeight)}
+  function placeMarks(){ var m=maxScroll(); marks.forEach(function(k){ k.p=Math.min(1,k.s.offsetTop/m); k.b.style.top=((1-k.p)*100)+'%'; }); }
+
+  function update(){
+    var mid=innerHeight/2, best=0;
+    for(var i=0;i<n;i++){ if(slides[i].getBoundingClientRect().top<=mid) best=i; }
+    if(best!==cur||!count.dataset.init){
+      cur=best; count.dataset.init=1;
+      count.textContent=String(cur+1).padStart(2,'0')+' / '+String(n).padStart(2,'0');
+      ctitle.textContent=(slides[cur].getAttribute('data-title')||'').toUpperCase();
+      notetext.textContent=slides[cur].getAttribute('data-notes')||'';
+    }
+    var p=Math.min(1,Math.max(0,scrollY/maxScroll()));
+    car.style.top=((1-p)*100)+'%';
+    marks.forEach(function(k){k.b.classList.toggle('on',p>=k.p-0.01)});
+    if(scrollY>40) hint.classList.add('gone');
+  }
+  function go(i){ i=Math.max(0,Math.min(n-1,i)); slides[i].scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); }
+
+  addEventListener('keydown',function(e){
+    if(e.metaKey||e.ctrlKey||e.altKey)return;
+    var k=e.key;
+    if(k==='ArrowDown'||k==='PageDown'||k==='ArrowRight'||(k===' '&&!e.shiftKey)){e.preventDefault();go(cur+1)}
+    else if(k==='ArrowUp'||k==='PageUp'||k==='ArrowLeft'||(k===' '&&e.shiftKey)){e.preventDefault();go(cur-1)}
+    else if(k==='Home'){e.preventDefault();go(0)}
+    else if(k==='End'){e.preventDefault();go(n-1)}
+    else if(k==='n'||k==='N'){notes.classList.toggle('open')}
+    else if(k==='f'||k==='F'){ if(document.fullscreenElement){document.exitFullscreen()} else if(root.requestFullscreen){root.requestFullscreen()} }
+  });
+  var ticking=false;
+  addEventListener('scroll',function(){ if(!ticking){ticking=true;requestAnimationFrame(function(){update();ticking=false})} },{passive:true});
+  addEventListener('resize',function(){placeMarks();update()});
+  addEventListener('load',function(){placeMarks();update()});
+  placeMarks(); update();
+})();
+</script>
+</body>
+</html>

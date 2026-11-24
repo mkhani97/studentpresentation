@@ -16,16 +16,6 @@ The rail on the left is the building's elevation. The orange hoist climbs as you
 
 Each section's animation plays the first time it scrolls into view. To replay them all, refresh the page.
 
-## Deploying to Cloudflare Pages
-
-1. Push this folder to the root of a GitHub repo.
-2. In Cloudflare, go to **Workers & Pages → Create → Pages → Connect to Git** and pick the repo.
-3. Use these build settings:
-   - Framework preset: **None**
-   - Build command: *(leave empty)*
-   - Build output directory: **/**
-4. Deploy. Every push to the main branch redeploys automatically.
-
 ## Editing
 
 All the text is in `index.html`. Each `<section class="slide">` is one stop in the talk, and its `data-notes` attribute holds the speaker notes.

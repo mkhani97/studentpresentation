@@ -347,6 +347,32 @@ b{font-weight:600}
 .qr-url{font-size:12px;color:var(--steel);text-align:center;word-break:break-all;line-height:1.3}
 
 
+/* about: photos */
+.about-right{display:flex;flex-direction:column;gap:clamp(12px,2.4vh,26px)}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.4vw,24px);max-width:calc(3 * 46vh * .75 + 2 * 24px + 3 * 20px)}
+.photo{margin:0;position:relative;background:#FFFFFF;padding:clamp(6px,.6vw,10px);padding-bottom:clamp(16px,1.6vw,26px);box-shadow:0 10px 26px rgba(20,33,50,.18);transform:rotate(var(--rot))}
+.js .photo[data-r]{transform:translateY(26px) rotate(var(--rot))}
+.js .in .photo[data-r]{transform:rotate(var(--rot))}
+.photo .frame{aspect-ratio:3/4;overflow:hidden;background:var(--concrete2);position:relative}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo .ph{display:none}
+.photo .frame.empty{border:2px dashed #B8B1A1;display:flex;align-items:center;justify-content:center}
+.photo .frame.empty .ph{display:block;text-align:center;font:700 var(--mono)/1.5 var(--f-mono);letter-spacing:.12em;color:var(--steel)}
+.photo .ph small{font-weight:500;letter-spacing:0;font-size:11px}
+.photo .tape{position:absolute;left:50%;top:-12px;width:42%;height:24px;margin-left:-21%;background:rgba(242,183,5,.85);transform:rotate(calc(var(--rot) * -1.5));z-index:2}
+.dark .xp-row{border-color:var(--line)}
+.dark .xp-org{color:var(--concrete)}
+.dark .xp-role{color:var(--mist)}
+.dark .xp-when{color:var(--orange)}
+#background .xp{max-width:1180px;margin-top:clamp(18px,4vh,44px)}
+#background .xp-row{padding:clamp(12px,2vh,20px) 0}
+#background .xp-org{font-size:clamp(18px,1.6vw,30px)}
+#background .xp-role{font-size:clamp(14px,1.1vw,20px)}
+#background .chips{margin-top:clamp(18px,3.4vh,36px)}
+#background .chip{font-size:clamp(13px,1vw,18px);padding:8px 14px;background:var(--navy3)}
+#background .chip.win{background:var(--orange)}
+
+
 /* ---------- responsive / motion ---------- */
 @media (max-width:900px){
   :root{--rail:0px}
@@ -429,7 +455,7 @@ b{font-weight:600}
 
 
 <!-- 02 ABOUT ME -->
-<section class="slide light" id="about" data-title="About me" data-notes="A bit about me. I’m Mahdi Khani, and I’m studying a Bachelor of Science with a Specialization in Computer Science at the University of Alberta, graduating in April 2028. The area I’m most drawn to is data engineering. Before Bird I was a big data analyst at the Energy Mechatronics Lab, where I led the data analysis for the AZEHT transit program and presented findings to the City of Edmonton. I also work as a sports data analyst, and I founded and lead Alberta Blockchain, the U of A’s blockchain club.">
+<section class="slide light" id="about" data-title="About me" data-notes="A bit about me. I’m Mahdi Khani, and I’m studying a Bachelor of Science with a Specialization in Computer Science at the University of Alberta, graduating in April 2028. The area I’m most drawn to is data engineering: building the systems that store, process and make data useful. [Say a line about each photo.]">
   <div class="inner">
     <p class="eyebrow" data-r>Site lead · About me</p>
     <h2 data-r style="--d:1">Hi, I’m Mahdi Khani</h2>
@@ -447,22 +473,36 @@ b{font-weight:600}
           <div class="barcode" aria-hidden="true"></div>
         </div>
       </div>
-      <div>
+      <div class="about-right">
         <p class="lead" data-r style="--d:3">Most interested in data engineering: building the systems that store, process and make data useful.</p>
-        <div class="xp">
+        <div class="photos">
+        <figure class="photo" data-r style="--d:4;--rot:-2.2deg"><span class="tape"></span><div class="frame"><img src="photos/about-1.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">PHOTO 1<br><small>photos/about-1.jpg</small></span></div></figure>
+        <figure class="photo" data-r style="--d:5;--rot:1.6deg"><span class="tape"></span><div class="frame"><img src="photos/about-2.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">PHOTO 2<br><small>photos/about-2.jpg</small></span></div></figure>
+        <figure class="photo" data-r style="--d:6;--rot:-1.2deg"><span class="tape"></span><div class="frame"><img src="photos/about-3.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">PHOTO 3<br><small>photos/about-3.jpg</small></span></div></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 03 BACKGROUND -->
+<section class="slide dark" id="background" data-title="Background" data-notes="Before Bird I was a big data analyst at the Energy Mechatronics Lab, where I led the data analysis for the AZEHT transit program and presented findings to the City of Edmonton. I also work as a sports data analyst at Betsson, and I founded and lead Alberta Blockchain, the U of A’s blockchain club. Most recently our team won two competitions at the University Blockchain Conference in Austin.">
+  <div class="inner">
+    <p class="eyebrow" data-r>Site lead · Background</p>
+    <h2 data-r style="--d:1">Where I’ve worked and what I lead</h2>
+    <div class="xp">
           <div class="xp-row" data-r style="--d:4"><p class="xp-org">Bird Construction</p><p class="xp-when">Sept 2025 – Dec 2026</p><p class="xp-role">IT PMO Administrator, Data &amp; Automation intern</p></div>
           <div class="xp-row" data-r style="--d:5"><p class="xp-org">Betsson Group (Sporting Solutions)</p><p class="xp-when">Sept 2024 – present</p><p class="xp-role">US Sports Data Analyst</p></div>
           <div class="xp-row" data-r style="--d:6"><p class="xp-org">Energy Mechatronics Lab, U of A</p><p class="xp-when">Apr 2024 – Apr 2025</p><p class="xp-role">Vehicle Big Data Analyst intern: led data analysis for the AZEHT transit program, presented to the City of Edmonton</p></div>
           <div class="xp-row" data-r style="--d:7"><p class="xp-org">Alberta Blockchain</p><p class="xp-when">Founder</p><p class="xp-role">Founder and President of the U of A’s blockchain club</p></div>
         </div>
-        <div class="chips" data-r style="--d:8">
+    <div class="chips" data-r style="--d:8">
           <span class="chip win">UBC 2026: won the SpaceX Grokbot Research Competition and Solana Flash Hackathon</span>
           <span class="chip">Dean’s Honour List (2x)</span>
           <span class="chip">Jason Lang Scholarship (2x)</span>
           <span class="chip">Undergraduate Leadership Award</span>
         </div>
-      </div>
-    </div>
   </div>
 </section>
 

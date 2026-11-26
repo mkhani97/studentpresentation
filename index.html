@@ -353,6 +353,18 @@ b{font-weight:600}
 #background .chip{font-size:clamp(13px,1vw,18px);padding:8px 14px;background:var(--navy3)}
 #background .chip.win{background:var(--orange)}
 
+/* crew thanks */
+.crew .hatcard{align-items:flex-start;padding-top:clamp(20px,2.4vw,40px)}
+.bighat{position:relative;display:block;width:clamp(64px,5.4vw,96px);height:clamp(38px,3.2vw,56px);border-radius:60px 60px 8px 8px;margin:0 0 clamp(10px,1.8vh,20px) 18px;border:3px solid var(--navy)}
+.bighat::before{content:"";position:absolute;left:50%;top:-3px;bottom:0;width:18%;margin-left:-9%;background:rgba(20,33,50,.12);border-radius:20px 20px 0 0}
+.bighat::after{content:"";position:absolute;left:-16px;right:-16px;bottom:-9px;height:9px;border-radius:5px;background:inherit;border:3px solid var(--navy)}
+.bighat.white{background:#FFFFFF}.bighat.orange{background:var(--orange)}.bighat.yellow{background:var(--yellow)}
+.js .bighat{transform:translateY(-40px);opacity:0;transition:transform .7s cubic-bezier(.3,1.5,.5,1),opacity .4s}
+.in .bighat{transform:none;opacity:1}
+.crew .card:nth-child(1) .bighat{transition-delay:.5s}.crew .card:nth-child(2) .bighat{transition-delay:.65s}.crew .card:nth-child(3) .bighat{transition-delay:.8s}
+.crew-role{font:700 var(--mono)/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--orange-d)}
+.crew h3{font-size:clamp(20px,1.8vw,34px)}
+
 /* ---------- responsive / motion ---------- */
 @media (max-width:900px){
   :root{--rail:0px}
@@ -456,12 +468,12 @@ b{font-weight:600}
         <p class="lead" data-r style="--d:3">Most interested in data engineering: building the systems that store, process and make data useful.</p>
         <!-- Photos: put files in a "photos" folder next to index.html. Write each caption inside its <figcaption>. -->
         <div class="collage">
-          <figure class="shot vertical" data-r style="--d:4;--rot:-1.6deg"><span class="tape"></span><div class="frame"><img src="photos/vertical-1.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">VERTICAL 1<br><small>photos/vertical-1.jpg</small></span></div><figcaption>Presenting our winning pitch at UBC 2026 SpaceX Research Comp.</figcaption></figure>
+          <figure class="shot vertical" data-r style="--d:4;--rot:-1.6deg"><span class="tape"></span><div class="frame"><img src="photos/vertical-1.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">VERTICAL 1<br><small>photos/vertical-1.jpg</small></span></div><figcaption>[Caption]</figcaption></figure>
           <div class="stackcol">
-            <figure class="shot horizontal" data-r style="--d:5;--rot:1.2deg"><span class="tape"></span><div class="frame"><img src="photos/horizontal-1.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">HORIZONTAL 1<br><small>photos/horizontal-1.jpg</small></span></div><figcaption>Dinner with friends in Portofino, Italy</figcaption></figure>
-            <figure class="shot horizontal" data-r style="--d:6;--rot:-0.8deg"><span class="tape"></span><div class="frame"><img src="photos/horizontal-2.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">HORIZONTAL 2<br><small>photos/horizontal-2.jpg</small></span></div><figcaption>Origins - Day 1 of Kindergarten</figcaption></figure>
+            <figure class="shot horizontal" data-r style="--d:5;--rot:1.2deg"><span class="tape"></span><div class="frame"><img src="photos/horizontal-1.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">HORIZONTAL 1<br><small>photos/horizontal-1.jpg</small></span></div><figcaption>[Caption]</figcaption></figure>
+            <figure class="shot horizontal" data-r style="--d:6;--rot:-0.8deg"><span class="tape"></span><div class="frame"><img src="photos/horizontal-2.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">HORIZONTAL 2<br><small>photos/horizontal-2.jpg</small></span></div><figcaption>[Caption]</figcaption></figure>
           </div>
-          <figure class="shot vertical" data-r style="--d:7;--rot:1.4deg"><span class="tape"></span><div class="frame"><img src="photos/vertical-2.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">VERTICAL 2<br><small>photos/vertical-2.jpg</small></span></div><figcaption>Views from River Seine</figcaption></figure>
+          <figure class="shot vertical" data-r style="--d:7;--rot:1.4deg"><span class="tape"></span><div class="frame"><img src="photos/vertical-2.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">VERTICAL 2<br><small>photos/vertical-2.jpg</small></span></div><figcaption>[Caption]</figcaption></figure>
         </div>
       </div>
     </div>
@@ -475,14 +487,14 @@ b{font-weight:600}
     <h2 data-r style="--d:1">Where I’ve worked and what I lead</h2>
     <div class="xp">
           <div class="xp-row" data-r style="--d:4"><p class="xp-org">Bird Construction</p><p class="xp-when">Sept 2025 – Dec 2026</p><p class="xp-role">IT PMO Administrator, Data &amp; Automation intern</p></div>
-          <div class="xp-row" data-r style="--d:6"><p class="xp-org">Energy Mechatronics Lab, U of A</p><p class="xp-when">Apr 2024 – Sep 2026</p><p class="xp-role">Vehicle Big Data Analyst intern: led data analysis for the AZEHT transit program, presented to the City of Edmonton</p></div>
-          <div class="xp-row" data-r style="--d:6"><p class="xp-org">Lifeguard, City of Edmonton</p><p class="xp-when">June 2023 – present</p><p class="xp-role">Saving lives, preventing injuries, maintaining safety and good vibes at the pool. </p></div>
+          <div class="xp-row" data-r style="--d:5"><p class="xp-org">Betsson Group (Sporting Solutions)</p><p class="xp-when">Sept 2024 – present</p><p class="xp-role">US Sports Data Analyst</p></div>
+          <div class="xp-row" data-r style="--d:6"><p class="xp-org">Energy Mechatronics Lab, U of A</p><p class="xp-when">Apr 2024 – Apr 2025</p><p class="xp-role">Vehicle Big Data Analyst intern: led data analysis for the AZEHT transit program, presented to the City of Edmonton</p></div>
           <div class="xp-row" data-r style="--d:7"><p class="xp-org">Alberta Blockchain</p><p class="xp-when">Founder</p><p class="xp-role">Founder and President of the U of A’s blockchain club</p></div>
         </div>
     <div class="chips" data-r style="--d:8">
           <span class="chip win">UBC 2026: won the SpaceX Grokbot Research Competition and Solana Flash Hackathon</span>
           <span class="chip">Dean’s Honour List (2x)</span>
-          <span class="chip">Jason Lang Scholarship (3x)</span>
+          <span class="chip">Jason Lang Scholarship (2x)</span>
           <span class="chip">Undergraduate Leadership Award</span>
         </div>
   </div>
@@ -775,17 +787,30 @@ b{font-weight:600}
   </div>
 </section>
 
+<!-- 16 CREW THANKS -->
+<section class="slide light" id="crew" data-title="Crew credits" data-notes="Before I wrap up, a few thank-yous. Shaya, thank you for being a great manager: for the guidance, the trust and the honest feedback. Daniele and the entire PMO, thank you for welcoming me onto the team and giving me real work to build. And to everyone in DS, thank you for the support and collaboration all term.">
+  <div class="inner">
+    <p class="eyebrow" data-r>Crew credits · Thank you</p>
+    <h2 data-r style="--d:1">None of this went up without the crew</h2>
+    <div class="grid g3 crew">
+      <div class="card hatcard" data-r style="--d:2"><span class="bighat white" aria-hidden="true"></span><p class="crew-role">My manager</p><h3>Shaya</h3><p>For the guidance, the trust and the honest feedback that shaped this work.</p></div>
+      <div class="card hatcard" data-r style="--d:3"><span class="bighat orange" aria-hidden="true"></span><p class="crew-role">The team</p><h3>Daniele and the entire PMO</h3><p>For welcoming me onto the team and giving me real projects to build.</p></div>
+      <div class="card hatcard" data-r style="--d:4"><span class="bighat yellow" aria-hidden="true"></span><p class="crew-role">The department</p><h3>Everyone working in DS</h3><p>For the support, the questions and the collaboration all term.</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- 15 THANKS -->
 <section class="slide dark" id="thanks" data-title="Topping out" data-notes="Thanks for listening. In construction, when the last beam goes on, you have a topping-out ceremony. Consider this mine. If you’d like to connect, the QR code goes to my LinkedIn. Happy to take questions.">
   <div class="inner thanks-grid">
     <div>
       <p class="eyebrow" data-r>Topping out</p>
-      <h1 data-r style="--d:1">Thank you</h1>
-      <p class="hero-sub" data-r style="--d:2">Questions?</p>
+      <h1 data-r style="--d:1">Questions?</h1>
+      <p class="hero-sub" data-r style="--d:2">Thanks for listening.</p>
       <p class="byline" data-r style="--d:3"><b>Mahdi Khani</b> · IT PMO Administrator · Data &amp; Automation intern</p>
     </div>
     <!-- Put your LinkedIn profile URL in href below; the QR code is generated from it. -->
-    <a class="qr-card" id="qrcard" href="https://www.linkedin.com/in/YOUR-LINKEDIN" target="_blank" rel="noopener" data-r style="--d:4">
+    <a class="qr-card" id="qrcard" href="https://www.linkedin.com/in/mkhani97/" target="_blank" rel="noopener" data-r style="--d:4">
       <div class="qr" id="qr"></div>
       <p class="qr-label">Connect on LinkedIn</p>
       <p class="qr-url" id="qrurl"></p>

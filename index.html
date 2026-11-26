@@ -30,7 +30,6 @@ h3{font-size:var(--h3);line-height:1.2;font-weight:600}
 p{margin:0}
 b{font-weight:600}
 
-
 /* ---------- slide frame ---------- */
 .slide{position:relative;min-height:100vh;padding:11vh 7vw 9vh calc(var(--rail) + 6vw);display:flex;flex-direction:column;justify-content:center;overflow:hidden;scroll-snap-align:start}
 .light{background-color:var(--concrete);background-image:linear-gradient(rgba(20,33,50,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(20,33,50,.045) 1px,transparent 1px);background-size:96px 96px}
@@ -46,7 +45,6 @@ b{font-weight:600}
 .lead{font-size:var(--lead);line-height:1.4}
 .mono{font-family:var(--f-mono)}
 
-
 /* cards */
 .card{background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:var(--pad);display:flex;flex-direction:column;gap:clamp(6px,.7vw,12px)}
 .dark .card,.blueprint .card{background:rgba(28,45,67,.92);border-color:var(--line)}
@@ -60,11 +58,9 @@ b{font-weight:600}
 .tag{font-family:var(--f-mono);font-size:var(--mono);font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:6px;background:var(--orange);color:var(--navy);white-space:nowrap}
 .tag.quiet{background:var(--navy3);color:var(--concrete)}
 
-
 /* reveal */
 .js [data-r]{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--d,0) * 110ms)}
 .js .in [data-r]{opacity:1;transform:none}
-
 
 /* ---------- chrome: elevation rail, counter, notes ---------- */
 .rail{position:fixed;left:0;top:0;bottom:0;width:var(--rail);background:var(--navy);border-right:1px solid var(--line);z-index:20}
@@ -82,7 +78,6 @@ b{font-weight:600}
 .notes{position:fixed;left:calc(var(--rail) + 24px);right:24px;bottom:20px;z-index:30;max-width:980px;margin:0 auto;background:rgba(20,33,50,.97);color:var(--concrete);border:1px solid var(--line);border-left:5px solid var(--orange);border-radius:10px;padding:16px 20px;font-size:16px;line-height:1.55;display:none}
 .notes.open{display:block}
 .notes b{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;color:var(--orange);display:block;margin-bottom:6px}
-
 
 /* ---------- 01 hero ---------- */
 #hero .split{grid-template-columns:1.1fr .9fr}
@@ -105,7 +100,6 @@ b{font-weight:600}
 .crane .floor{opacity:0;animation:rise .7s ease forwards}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
-
 /* ---------- 02 site survey ---------- */
 .ticket{position:relative;padding-top:calc(var(--pad) + 30px)}
 .ticket .strip{position:absolute;left:0;right:0;top:0;height:30px;border-radius:14px 14px 0 0;background:repeating-linear-gradient(-45deg,var(--navy) 0 14px,var(--yellow) 14px 28px)}
@@ -113,7 +107,6 @@ b{font-weight:600}
 .js .ticket .stamp{opacity:0;transform:rotate(-4deg) scale(1.8)}
 .js .in .ticket .stamp{animation:stamp .35s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:calc(var(--d,0) * 110ms + .5s)}
 @keyframes stamp{to{opacity:1;transform:rotate(-4deg) scale(1)}}
-
 
 /* ---------- 03 plan ---------- */
 #plan .split{grid-template-columns:.85fr 1.15fr}
@@ -129,7 +122,6 @@ b{font-weight:600}
 .legend h3{font-size:clamp(16px,1.25vw,24px)}
 .legend p{font-size:clamp(13px,.95vw,18px);color:var(--mist)}
 
-
 /* ---------- 04 foundation ---------- */
 .site{position:relative;margin-top:clamp(20px,4vh,44px)}
 .lists{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(8px,1vw,18px);position:relative;z-index:2}
@@ -143,7 +135,6 @@ b{font-weight:600}
 .slab span{position:relative;font:700 clamp(14px,1.3vw,24px)/1 var(--f-mono);letter-spacing:.3em;color:var(--navy);background:#B4B5AF;padding:10px 16px;border-radius:4px}
 .in .slab{clip-path:inset(0 0 0 0)}
 
-
 /* ---------- 05 hub floor plan ---------- */
 .plan{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(20px,3.6vh,44px);border:4px solid var(--navy);border-radius:6px;background:var(--paper)}
 .room{position:relative;padding:clamp(16px,1.6vw,30px);padding-top:clamp(30px,3.4vh,44px);border-right:2px solid var(--navy);border-bottom:2px solid var(--navy);display:flex;flex-direction:column;gap:8px}
@@ -155,7 +146,6 @@ b{font-weight:600}
 .room p{font-size:clamp(14px,1vw,19px)}
 .js .room{opacity:0;transition:opacity .5s ease;transition-delay:calc(var(--d) * 120ms + .2s)}
 .js .in .room{opacity:1}
-
 
 /* ---------- 06 adoption ---------- */
 #adoption{background:var(--orange)}
@@ -171,7 +161,6 @@ b{font-weight:600}
 .in .tape.t1{transform:rotate(-3deg)}
 .in .tape.t2{transform:rotate(2.5deg)}
 .tape.t2 .run{animation-direction:reverse}
-
 
 /* ---------- 07 lifecycle road ---------- */
 .road-wrap{position:relative;margin-top:clamp(20px,4vh,44px);padding-top:clamp(56px,8vh,84px)}
@@ -194,7 +183,6 @@ b{font-weight:600}
 @keyframes drive{0%{left:4%}12%{left:20%}20%{left:20%}32%{left:45%}40%{left:45%}52%{left:70%}60%{left:70%}76%{left:89%}100%{left:89%}}
 #lifecycle .grid{margin-top:clamp(40px,7vh,72px)}
 
-
 /* ---------- 08 automation ---------- */
 .orders{display:flex;flex-direction:column;gap:clamp(8px,1.2vh,12px);margin-top:clamp(18px,3.6vh,40px);position:relative;z-index:2;max-width:1180px}
 .order{display:grid;grid-template-columns:clamp(54px,5vw,80px) 1fr 34px 1.2fr;gap:clamp(10px,1.2vw,20px);align-items:center;background:var(--paper);border:1px solid var(--rule);border-left:5px solid var(--orange);border-radius:8px;padding:clamp(10px,1.4vh,16px) clamp(14px,1.4vw,22px);transform:translateX(-40px);opacity:0;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .6s;transition-delay:calc(var(--d) * 130ms + .15s)}
@@ -209,7 +197,6 @@ b{font-weight:600}
 .gears .g1{transform-origin:200px 200px;animation:spin 18s linear infinite}
 .gears .g2{transform-origin:352px 352px;animation:spin 12s linear infinite reverse}
 @keyframes spin{to{transform:rotate(360deg)}}
-
 
 /* ---------- 09 agents ---------- */
 #agents .split{grid-template-columns:1fr 1fr;align-items:start;margin-top:clamp(18px,3.6vh,40px)}
@@ -232,7 +219,6 @@ b{font-weight:600}
 .agent h3{font-size:clamp(15px,1.15vw,21px)}
 .agent p{font-size:clamp(13px,.92vw,17px);color:var(--mist)}
 
-
 /* ---------- 10 status flow beam ---------- */
 .beam-wrap{position:relative;margin-top:clamp(22px,4.4vh,52px)}
 .ibeam{position:relative;height:clamp(34px,4.6vh,46px)}
@@ -252,7 +238,6 @@ b{font-weight:600}
 .in .station{animation:lit .4s ease forwards;animation-delay:var(--t)}
 @keyframes lit{to{border-color:var(--orange);background:rgba(36,57,90,.95)}}
 
-
 /* ---------- 11 decisions ---------- */
 .cut{position:relative}
 .cut .stampbig{position:absolute;right:clamp(20px,2.4vw,44px);bottom:clamp(20px,3vh,40px);font:700 clamp(20px,2vw,36px)/1 var(--f-mono);letter-spacing:.16em;color:#B3261E;border:4px solid #B3261E;padding:10px 16px;border-radius:8px;transform:rotate(-8deg)}
@@ -268,7 +253,6 @@ b{font-weight:600}
 .watch .v{font:700 clamp(22px,2.2vw,40px)/1 var(--f-head);color:var(--orange-d)}
 .watch .k{font:700 var(--mono)/1.3 var(--f-mono);color:var(--steel);letter-spacing:.06em}
 
-
 /* ---------- 12 resource pool ---------- */
 #resource .split{grid-template-columns:1fr 1fr}
 .trailer{width:100%;max-height:52vh;transform:translateX(-130%);transition:transform 1.3s cubic-bezier(.25,1.2,.4,1) .2s}
@@ -276,13 +260,11 @@ b{font-weight:600}
 .stack{display:flex;flex-direction:column;gap:var(--gap)}
 .standalone{align-self:flex-start;margin-top:clamp(12px,2vh,20px)}
 
-
 /* ---------- 13 next ---------- */
 #next .split{grid-template-columns:.8fr 1.2fr}
 .tower{width:100%;max-height:74vh}
 .tower .newfloor{transform:translateY(-190px);transition:transform 2.2s cubic-bezier(.45,0,.2,1) .4s}
 .in .tower .newfloor{transform:none}
-
 
 /* ---------- 14 lessons ---------- */
 .sign{background:var(--paper);border:3px solid var(--navy);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
@@ -290,7 +272,6 @@ b{font-weight:600}
 .sign .hd i{width:26px;height:16px;background:var(--orange);border-radius:13px 13px 3px 3px;position:relative}
 .sign .hd i::after{content:"";position:absolute;left:-4px;right:-4px;bottom:-3px;height:4px;background:var(--orange);border-radius:2px}
 .sign .bd{padding:clamp(14px,1.6vw,28px);display:flex;flex-direction:column;gap:8px}
-
 
 /* ---------- 15 thanks ---------- */
 #thanks{justify-content:flex-start;padding-top:14vh}
@@ -302,10 +283,8 @@ b{font-weight:600}
 @keyframes flap{to{transform:skewY(-6deg) scaleX(.94)}}
 
 
-
-
 /* ---------- about me ---------- */
-.about{display:grid;grid-template-columns:minmax(240px,.7fr) 1.6fr;gap:clamp(24px,3.6vw,68px);margin-top:clamp(16px,3.2vh,40px);align-items:start}
+.about{display:grid;grid-template-columns:clamp(240px,19vw,330px) 1fr;gap:clamp(24px,3.6vw,68px);margin-top:clamp(16px,3.2vh,40px);align-items:start}
 .badge{background:var(--paper);border:3px solid var(--navy);border-radius:16px;overflow:hidden;box-shadow:0 18px 40px rgba(20,33,50,.14)}
 .in .badge{animation:swing 1.8s ease-out .35s}
 @keyframes swing{0%{transform:rotate(-5deg)}35%{transform:rotate(3deg)}65%{transform:rotate(-1.5deg)}100%{transform:none}}
@@ -329,12 +308,10 @@ b{font-weight:600}
 .chip{font-size:clamp(12px,.85vw,15px);font-weight:600;padding:6px 12px;border-radius:999px;background:var(--navy);color:var(--concrete);line-height:1.35}
 .chip.win{background:var(--orange);color:var(--navy)}
 
-
 /* foundation: two sources */
 .lists.two{grid-template-columns:1fr 1fr;max-width:900px;margin:0 auto;gap:clamp(40px,6vw,120px)}
 .list span{display:flex;flex-direction:column}
 .list small{font:500 var(--mono)/1.4 var(--f-mono);color:var(--steel);letter-spacing:.04em}
-
 
 /* thanks: QR */
 .thanks-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr auto;gap:clamp(24px,4vw,64px);align-items:start}
@@ -346,20 +323,24 @@ b{font-weight:600}
 .qr-label{font:700 var(--mono)/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--navy)}
 .qr-url{font-size:12px;color:var(--steel);text-align:center;word-break:break-all;line-height:1.3}
 
-
-/* about: photos */
+/* about: photo collage (2 vertical 3:4, 2 horizontal 4:3, caption banner under each) */
 .about-right{display:flex;flex-direction:column;gap:clamp(12px,2.4vh,26px)}
-.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.4vw,24px);max-width:calc(3 * 46vh * .75 + 2 * 24px + 3 * 20px)}
-.photo{margin:0;position:relative;background:#FFFFFF;padding:clamp(6px,.6vw,10px);padding-bottom:clamp(16px,1.6vw,26px);box-shadow:0 10px 26px rgba(20,33,50,.18);transform:rotate(var(--rot))}
-.js .photo[data-r]{transform:translateY(26px) rotate(var(--rot))}
-.js .in .photo[data-r]{transform:rotate(var(--rot))}
-.photo .frame{aspect-ratio:3/4;overflow:hidden;background:var(--concrete2);position:relative}
-.photo img{width:100%;height:100%;object-fit:cover;display:block}
-.photo .ph{display:none}
-.photo .frame.empty{border:2px dashed #B8B1A1;display:flex;align-items:center;justify-content:center}
-.photo .frame.empty .ph{display:block;text-align:center;font:700 var(--mono)/1.5 var(--f-mono);letter-spacing:.12em;color:var(--steel)}
-.photo .ph small{font-weight:500;letter-spacing:0;font-size:11px}
-.photo .tape{position:absolute;left:50%;top:-12px;width:42%;height:24px;margin-left:-21%;background:rgba(242,183,5,.85);transform:rotate(calc(var(--rot) * -1.5));z-index:2}
+.collage{--ch:min(50vh,560px);--cap:clamp(36px,5vh,46px);--gap:clamp(10px,1.2vw,18px);display:flex;gap:var(--gap);height:var(--ch);align-items:stretch}
+.stackcol{display:flex;flex-direction:column;gap:var(--gap)}
+.shot{margin:0;position:relative;display:flex;flex-direction:column;transform:rotate(var(--rot))}
+.js .shot[data-r]{transform:translateY(26px) rotate(var(--rot))}
+.js .in .shot[data-r]{transform:rotate(var(--rot))}
+.shot .frame{position:relative;overflow:hidden;background:var(--concrete2);border:5px solid #FFFFFF;border-bottom:0;box-shadow:0 10px 24px rgba(20,33,50,.16)}
+.shot.vertical .frame{height:calc(var(--ch) - var(--cap));aspect-ratio:3/4}
+.shot.horizontal .frame{height:calc((var(--ch) - 2 * var(--cap) - var(--gap)) / 2);aspect-ratio:4/3}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot .ph{display:none}
+.shot .frame.empty{display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(-45deg,#E9E5DA 0 14px,#E2DDD0 14px 28px)}
+.shot .frame.empty .ph{display:block;text-align:center;font:700 var(--mono)/1.5 var(--f-mono);letter-spacing:.12em;color:var(--steel)}
+.shot .ph small{font-weight:500;letter-spacing:0;font-size:11px}
+.shot figcaption{height:var(--cap);box-sizing:border-box;background:var(--navy);color:var(--concrete);border-left:5px solid var(--orange);padding:0 12px;display:flex;align-items:center;font-size:clamp(12px,.9vw,16px);font-weight:600;line-height:1.25;overflow:hidden;box-shadow:0 10px 24px rgba(20,33,50,.16)}
+.shot .tape{position:absolute;left:50%;top:-11px;width:40%;height:22px;margin-left:-20%;background:rgba(242,183,5,.85);transform:rotate(calc(var(--rot) * -1.6));z-index:2}
+.shot.horizontal .tape{top:-7px;height:14px;width:30%;margin-left:-15%}
 .dark .xp-row{border-color:var(--line)}
 .dark .xp-org{color:var(--concrete)}
 .dark .xp-role{color:var(--mist)}
@@ -372,13 +353,15 @@ b{font-weight:600}
 #background .chip{font-size:clamp(13px,1vw,18px);padding:8px 14px;background:var(--navy3)}
 #background .chip.win{background:var(--orange)}
 
-
 /* ---------- responsive / motion ---------- */
 @media (max-width:900px){
   :root{--rail:0px}
   .rail,.hint{display:none}
   .slide{padding:10vh 6vw}
   .split,#hero .split,#plan .split,#agents .split,#resource .split,#next .split,.about,.thanks-grid{grid-template-columns:1fr}
+  .collage{height:auto;flex-wrap:wrap}
+  .shot .frame{height:auto!important;width:100%}
+  .shot.vertical,.stackcol{flex:1 1 40%}
   .g3,.g4,.plan,.stations{grid-template-columns:1fr 1fr}
   .lists{grid-template-columns:repeat(3,1fr)}
   .order{grid-template-columns:1fr}
@@ -393,7 +376,6 @@ b{font-weight:600}
 </head>
 <body>
 
-
 <nav class="rail" aria-label="Building progress">
   <div class="track"><div class="mast"></div><div class="car" id="car"></div></div>
   <div class="label">ELEV</div>
@@ -402,9 +384,7 @@ b{font-weight:600}
 <div class="hint" id="hint">↓ or Space to advance · N for notes · F for fullscreen</div>
 <aside class="notes" id="notes" aria-live="polite"><b>SPEAKER NOTES</b><span id="notetext"></span></aside>
 
-
 <main>
-
 
 <!-- 01 HERO -->
 <section class="slide blueprint" id="hero" data-title="Start" data-notes="Hi everyone, I’m Mahdi. For the past term I’ve been the Data and Automation intern on Bird’s IT PMO team. With Microsoft retiring Project Online, the PMO moved its projects onto a new platform, and I helped build it. Over the next 20 minutes I’ll walk through it the way you’d put up a building: foundation first, then each floor. I’ll finish with what’s next and what I learned.">
@@ -453,7 +433,6 @@ b{font-weight:600}
   </div>
 </section>
 
-
 <!-- 02 ABOUT ME -->
 <section class="slide light" id="about" data-title="About me" data-notes="A bit about me. I’m Mahdi Khani, and I’m studying a Bachelor of Science with a Specialization in Computer Science at the University of Alberta, graduating in April 2028. The area I’m most drawn to is data engineering: building the systems that store, process and make data useful. [Say a line about each photo.]">
   <div class="inner">
@@ -475,16 +454,19 @@ b{font-weight:600}
       </div>
       <div class="about-right">
         <p class="lead" data-r style="--d:3">Most interested in data engineering: building the systems that store, process and make data useful.</p>
-        <div class="photos">
-        <figure class="photo" data-r style="--d:4;--rot:-2.2deg"><span class="tape"></span><div class="frame"><img src="photos/about-1.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">PHOTO 1<br><small>photos/about-1.jpg</small></span></div></figure>
-        <figure class="photo" data-r style="--d:5;--rot:1.6deg"><span class="tape"></span><div class="frame"><img src="photos/about-2.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">PHOTO 2<br><small>photos/about-2.jpg</small></span></div></figure>
-        <figure class="photo" data-r style="--d:6;--rot:-1.2deg"><span class="tape"></span><div class="frame"><img src="photos/about-3.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">PHOTO 3<br><small>photos/about-3.jpg</small></span></div></figure>
+        <!-- Photos: put files in a "photos" folder next to index.html. Write each caption inside its <figcaption>. -->
+        <div class="collage">
+          <figure class="shot vertical" data-r style="--d:4;--rot:-1.6deg"><span class="tape"></span><div class="frame"><img src="photos/vertical-1.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">VERTICAL 1<br><small>photos/vertical-1.jpg</small></span></div><figcaption>Presenting our winning pitch at UBC 2026 SpaceX Research Comp.</figcaption></figure>
+          <div class="stackcol">
+            <figure class="shot horizontal" data-r style="--d:5;--rot:1.2deg"><span class="tape"></span><div class="frame"><img src="photos/horizontal-1.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">HORIZONTAL 1<br><small>photos/horizontal-1.jpg</small></span></div><figcaption>Dinner with friends in Portofino, Italy</figcaption></figure>
+            <figure class="shot horizontal" data-r style="--d:6;--rot:-0.8deg"><span class="tape"></span><div class="frame"><img src="photos/horizontal-2.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">HORIZONTAL 2<br><small>photos/horizontal-2.jpg</small></span></div><figcaption>Origins - Day 1 of Kindergarten</figcaption></figure>
+          </div>
+          <figure class="shot vertical" data-r style="--d:7;--rot:1.4deg"><span class="tape"></span><div class="frame"><img src="photos/vertical-2.jpg" alt="" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="ph">VERTICAL 2<br><small>photos/vertical-2.jpg</small></span></div><figcaption>Views from River Seine</figcaption></figure>
         </div>
       </div>
     </div>
   </div>
 </section>
-
 
 <!-- 03 BACKGROUND -->
 <section class="slide dark" id="background" data-title="Background" data-notes="Before Bird I was a big data analyst at the Energy Mechatronics Lab, where I led the data analysis for the AZEHT transit program and presented findings to the City of Edmonton. I also work as a sports data analyst at Betsson, and I founded and lead Alberta Blockchain, the U of A’s blockchain club. Most recently our team won two competitions at the University Blockchain Conference in Austin.">
@@ -506,7 +488,6 @@ b{font-weight:600}
   </div>
 </section>
 
-
 <!-- 02 SITE SURVEY -->
 <section class="slide light" id="survey" data-title="Site survey" data-notes="So why rebuild? The PMO already had a solid setup: Project Online, which ran on a robust SQL Server back end, plus additional tools on SharePoint lists. The main driver was that Microsoft retired Project Online in September 2026, so the PMO needed a new home. We used the move to bring everything from two places into one, carried over what the PMO already had, and built on top of it.">
   <div class="inner">
@@ -519,7 +500,6 @@ b{font-weight:600}
     </div>
   </div>
 </section>
-
 
 <!-- 03 PLAN -->
 <section class="slide blueprint" id="plan" data-title="The plan" data-notes="Here’s the plan, drawn like an elevation. Each level only works because of the one under it. First the data, then an app for PMs to work in, then automations inside that app, then AI agents that let PMs do their admin by chat. The roof is what I’m building now. Off to the side is a separate site office: an app I built for people managers.">
@@ -551,7 +531,6 @@ b{font-weight:600}
   </div>
 </section>
 
-
 <!-- 04 FOUNDATION -->
 <section class="slide light" id="foundation" data-title="Foundation" data-level="FDN" data-notes="The foundation was moving the PMO’s database from Project Online and SharePoint into Dataverse, Microsoft’s database for the Power Platform. Project Online already had a robust SQL Server back end, so this was about bringing two places into one, not starting from scratch. Everything else in this talk reads from and writes to it. We also have audit history, which has already paid off: we recovered a deleted project record from the recycle bin.">
   <div class="inner">
@@ -573,7 +552,6 @@ b{font-weight:600}
   </div>
 </section>
 
-
 <!-- 05 PROJECT HUB -->
 <section class="slide light" id="hub" data-title="Level 1" data-level="L1" data-notes="On top of that foundation I built Project Hub, the model-driven app the PMO works in. Everything about a project is in one place: its lifecycle stage, risks and issues, change requests and approvals, weekly status reports and lessons learned. Think of it as the floor plan for how a project is run.">
   <div class="inner">
@@ -591,7 +569,6 @@ b{font-weight:600}
   </div>
 </section>
 
-
 <!-- 06 ADOPTION -->
 <section class="slide" id="adoption" data-title="In service" data-notes="The part I’m proudest of is that it’s actually used. The whole PMO works in Project Hub regularly. This isn’t a prototype sitting on a shelf. It’s in service.">
   <div class="tape t1" aria-hidden="true"><div class="run"><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span><span>PROJECT HUB · IN SERVICE</span></div></div>
@@ -602,7 +579,6 @@ b{font-weight:600}
   </div>
   <div class="tape t2" aria-hidden="true"><div class="run"><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span><span>ONE APP · ONE DATABASE</span></div></div>
 </section>
-
 
 <!-- 07 LIFECYCLE -->
 <section class="slide blueprint" id="lifecycle" data-title="Lifecycle" data-notes="Every project moves through four stages as a business process flow. Before it starts, the initiation survey classifies it with a decision tree, so the PM doesn’t need to know the rules. Between stages there’s an approval gate: the PM clicks a button, a Power Automate flow routes the approval, and the decision is recorded. The stage’s documents can be generated right from the app.">
@@ -630,7 +606,6 @@ b{font-weight:600}
   </div>
 </section>
 
-
 <!-- 08 AUTOMATION -->
 <section class="slide light" id="automation" data-title="Level 2" data-level="L2" data-notes="This is the automation level: Power Automate flows plus scripts inside the app. None of these is huge on its own, but together they remove a lot of small manual steps. A triggered risk opens its follow-up straight away, status reports can start from last week’s, approvals route themselves, PMs get a weekly nudge, and lessons learned go from Excel into the database in one upload.">
   <svg class="gears" viewBox="0 0 440 440" aria-hidden="true">
@@ -649,7 +624,6 @@ b{font-weight:600}
     </div>
   </div>
 </section>
-
 
 <!-- 09 AGENTS -->
 <section class="slide dark" id="agents" data-title="Level 3" data-level="L3" data-notes="The top working floor is AI. I built agents in Microsoft Copilot Studio that connect to our Dataverse database through an MCP server, so PMs will be able to do their admin by chatting instead of filling out forms. To be clear, these are built but PMs aren’t using them yet. The Job Master and Project Plan agents are built, and the PMO assistant handles status reports and risks and issues. The potential: cutting the time PMs spend on status reports and risks and issues roughly in half.">
@@ -678,7 +652,6 @@ b{font-weight:600}
   </div>
 </section>
 
-
 <!-- 10 STATUS FLOW -->
 <section class="slide blueprint" id="statusflow" data-title="How a skill works" data-notes="Here’s what a skill actually does, using status reports as the example. The agent finds the PM’s project, drafts the report from recent project emails, lets the PM review it, condenses the summary to fit the 300-character field, then saves it through a fixed workflow. The rule across every skill: the AI can draft and talk, but people are always looked up, never guessed, and every save goes through a predictable workflow.">
   <div class="inner">
@@ -698,7 +671,6 @@ b{font-weight:600}
   </div>
 </section>
 
-
 <!-- 11 DECISIONS -->
 <section class="slide light" id="decisions" data-title="Site decisions" data-notes="Two decisions I want to highlight. First, I recommended dropping a planned Schedule skill: adding tasks by chat hit platform limits and saved little time, so the effort went to the skills PMs actually needed. Second, when the agent was slow in Teams, I measured before changing anything. The exact same request took over 10 minutes midweek and about five and a half on a weekend, which told us the problem was capacity under load, not the design. That led to targeted fixes instead of guesswork.">
   <div class="inner">
@@ -716,7 +688,6 @@ b{font-weight:600}
     </div>
   </div>
 </section>
-
 
 <!-- 12 RESOURCE POOL -->
 <section class="slide light" id="resource" data-title="Site office" data-notes="Separate from the PMO stack, I built the Resource Pool app from scratch for people managers. It’s a canvas Power App that tracks workers, their details, teams and skills. A lot of the work was making the data reliable: choosing teams from a list instead of free text, and fixing a bug where saving a profile could silently wipe someone’s team.">
@@ -750,7 +721,6 @@ b{font-weight:600}
     </div>
   </div>
 </section>
-
 
 <!-- 13 NEXT -->
 <section class="slide blueprint" id="next" data-title="Roof" data-level="RF" data-notes="What I’m working on now is rebuilding the project delivery model from scratch. There will be two models, a general waterfall and a customizable hybrid, and each becomes a business process flow in Project Hub. They’re aligned to the latest PMBOK and agile practice, and they bring the agents into each stage. The first example is generating the project charter automatically when a project moves past Initiation.">
@@ -791,7 +761,6 @@ b{font-weight:600}
   </div>
 </section>
 
-
 <!-- 14 LESSONS -->
 <section class="slide light" id="lessons" data-title="Site rules" data-notes="To wrap up, four things I’m taking away. Get the data right first. With AI, let it handle the language but put the important parts, like saving records, behind something predictable. Saying no to a feature can be the most useful recommendation you make. And measure before you fix.">
   <div class="inner">
@@ -805,7 +774,6 @@ b{font-weight:600}
     </div>
   </div>
 </section>
-
 
 <!-- 15 THANKS -->
 <section class="slide dark" id="thanks" data-title="Topping out" data-notes="Thanks for listening. In construction, when the last beam goes on, you have a topping-out ceremony. Consider this mine. If you’d like to connect, the QR code goes to my LinkedIn. Happy to take questions.">
@@ -839,9 +807,7 @@ b{font-weight:600}
   </svg>
 </section>
 
-
 </main>
-
 
 <script>
 /* qrcode-generator 1.4.4, (c) Kazuhiko Arase, MIT license */
@@ -858,7 +824,6 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   var track=document.querySelector('.rail .track');
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-
   function countUp(el){
     var target=+el.getAttribute('data-count'), suf=el.getAttribute('data-suffix')||'';
     if(reduce){el.textContent=target+suf;return}
@@ -873,7 +838,6 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     }})},{threshold:.35});
   slides.forEach(function(s){io.observe(s)});
 
-
   // elevation rail markers
   var marks=[];
   slides.forEach(function(s,i){
@@ -883,7 +847,6 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   });
   function maxScroll(){return Math.max(1,document.documentElement.scrollHeight-innerHeight)}
   function placeMarks(){ var m=maxScroll(); marks.forEach(function(k){ k.p=Math.min(1,k.s.offsetTop/m); k.b.style.top=((1-k.p)*100)+'%'; }); }
-
 
   function update(){
     var mid=innerHeight/2, best=0;
@@ -900,7 +863,6 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     if(scrollY>40) hint.classList.add('gone');
   }
   function go(i){ i=Math.max(0,Math.min(n-1,i)); slides[i].scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); }
-
 
   addEventListener('keydown',function(e){
     if(e.metaKey||e.ctrlKey||e.altKey)return;
@@ -929,5 +891,3 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 </script>
 </body>
 </html>
-
-

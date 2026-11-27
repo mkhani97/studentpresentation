@@ -367,12 +367,32 @@ b{font-weight:600}
 .crew-role{font:700 var(--mono)/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--orange-d)}
 .crew h3{font-size:clamp(20px,1.8vw,34px)}
 
+/* BDT since day one */
+.bdt-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(20px,3vw,56px);margin-top:clamp(16px,3.2vh,40px);align-items:start}
+.bdt-chartwrap{background:rgba(14,26,42,.75);border:1px solid var(--line);border-radius:14px;padding:clamp(10px,1.2vw,20px)}
+.bdt-chart{width:100%;height:auto;max-height:52vh;display:block}
+.bdt-line{stroke-dasharray:1;stroke-dashoffset:1}
+.in .bdt-line{animation:draw 2.2s cubic-bezier(.5,0,.3,1) .3s forwards}
+.bdt-area{opacity:0;transition:opacity .8s ease 2s}
+.in .bdt-area{opacity:.14}
+.js .bdt-pin{opacity:0;transition:opacity .5s ease}
+.in .bdt-pin{opacity:1;transition-delay:var(--t)}
+.bdt-src{font-size:12px;color:#8996A6;margin-top:6px}
+.bdt-side{display:flex;flex-direction:column;gap:clamp(10px,1.6vh,18px)}
+.bdt-stats{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,1vw,14px)}
+.bdt-stat{background:rgba(28,45,67,.92);border:1px solid var(--line);border-radius:12px;padding:clamp(10px,1.1vw,18px);display:flex;flex-direction:column;gap:4px}
+.bdt-stat .k,.bdt-live .k{font:700 10px/1.3 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mist)}
+.bdt-stat .v{font:700 clamp(24px,2.4vw,44px)/1.05 var(--f-head);color:var(--concrete);letter-spacing:-.02em}
+.bdt-stat .v.up{color:#4FC48A}
+.bdt-stat .s{font-size:clamp(12px,.85vw,15px);color:var(--mist)}
+.bdt-live{background:rgba(28,45,67,.92);border:1px solid var(--line);border-left:5px solid var(--orange);border-radius:12px;padding:clamp(10px,1.1vw,16px);min-height:clamp(110px,15vh,150px)}
+
 /* ---------- responsive / motion ---------- */
 @media (max-width:900px){
   :root{--rail:0px}
   .rail,.hint{display:none}
   .slide{padding:10vh 6vw}
-  .split,#hero .split,#plan .split,#agents .split,#resource .split,#next .split,.about,.thanks-grid{grid-template-columns:1fr}
+  .split,#hero .split,#plan .split,#agents .split,#resource .split,#next .split,.about,.thanks-grid,.bdt-grid{grid-template-columns:1fr}
   .collage{height:auto;flex-wrap:wrap}
   .shot .frame{height:auto!important;width:100%}
   .shot.vertical,.stackcol{flex:1 1 40%}
@@ -488,7 +508,7 @@ b{font-weight:600}
     <p class="eyebrow" data-r>Site lead · Background</p>
     <h2 data-r style="--d:1">Where I’ve worked and what I lead</h2>
     <div class="xp">
-          <div class="xp-row" data-r style="--d:4"><p class="xp-org">Bird Construction</p><p class="xp-when">Sept 2025 – Dec 2026</p><p class="xp-role">DS PMO Administrator, Data &amp; Automation intern</p></div>
+          <div class="xp-row" data-r style="--d:4"><p class="xp-org">Bird Construction</p><p class="xp-when">Sept 2025 – Dec 2026</p><p class="xp-role">IT PMO Administrator, Data &amp; Automation intern</p></div>
           <div class="xp-row" data-r style="--d:5"><p class="xp-org">Betsson Group (Sporting Solutions)</p><p class="xp-when">Sept 2024 – present</p><p class="xp-role">US Sports Data Analyst</p></div>
           <div class="xp-row" data-r style="--d:6"><p class="xp-org">Energy Mechatronics Lab, U of A</p><p class="xp-when">Apr 2024 – Apr 2025</p><p class="xp-role">Vehicle Big Data Analyst intern: led data analysis for the AZEHT transit program, presented to the City of Edmonton</p></div>
            <div class="xp-row" data-r style="--d:7"><p class="xp-org">Lifeguard, City of Edmonton</p><p class="xp-when">June 2023 - present</p><p class="xp-role">Saving lives, preventing injuries, and maintaining safety and good vibes at the pool.</p></div>
@@ -799,6 +819,50 @@ b{font-weight:600}
       <div class="card hatcard" data-r style="--d:2"><span class="bighat white" aria-hidden="true"></span><p class="crew-role">My manager</p><h3>Shaya</h3><p>For the guidance, the trust and the honest feedback that shaped this work.</p></div>
       <div class="card hatcard" data-r style="--d:3"><span class="bighat orange" aria-hidden="true"></span><p class="crew-role">The team</p><h3>Daniele and the entire PMO</h3><p>For welcoming me onto the team and giving me real projects to build.</p></div>
       <div class="card hatcard" data-r style="--d:4"><span class="bighat yellow" aria-hidden="true"></span><p class="crew-role">The department</p><h3>Everyone working in DS</h3><p>For the support, the questions and the collaboration all term.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 17b BDT SINCE DAY ONE (just for fun) -->
+<section class="slide blueprint" id="bdt" data-title="Market update" data-notes="One last chart before questions. My first day at Bird was September 3, 2025, when the stock closed at $22.98. The very next day it jumped 13%. Since then it peaked at $85.41 and it’s still up more than 200%. I’m not saying it’s causation... but I’m not saying it isn’t. In all seriousness, that number is the result of the great work everyone at Bird does every day, and it’s been a privilege to be part of it.">
+  <div class="inner">
+    <p class="eyebrow" data-r>Site inspection · Totally unrelated metrics</p>
+    <h2 data-r style="--d:1">BDT since my first day. Coincidence? Probably.</h2>
+    <div class="bdt-grid">
+      <div class="bdt-chartwrap" data-r style="--d:2">
+        <svg class="bdt-chart" viewBox="0 0 640 380" role="img" aria-label="Line chart of selected Bird Construction closing prices: 22.98 dollars on September 3, 2025, peaking at 85.41 dollars on October 2, 2026, and 73.57 dollars on November 26, 2026">
+        <line x1="56" y1="259.2" x2="604" y2="259.2" stroke="#2E4462" stroke-width="1"/><text x="48" y="263.2" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="#8996A6">$20</text><line x1="56" y1="202.4" x2="604" y2="202.4" stroke="#2E4462" stroke-width="1"/><text x="48" y="206.4" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="#8996A6">$40</text><line x1="56" y1="145.6" x2="604" y2="145.6" stroke="#2E4462" stroke-width="1"/><text x="48" y="149.6" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="#8996A6">$60</text><line x1="56" y1="88.8" x2="604" y2="88.8" stroke="#2E4462" stroke-width="1"/><text x="48" y="92.8" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="#8996A6">$80</text>
+        <line x1="56" y1="316" x2="604" y2="316" stroke="#6E819B" stroke-width="1.5"/>
+        <text x="56" y="340" font-family="JetBrains Mono, monospace" font-size="11" fill="#8996A6">SEP 2025</text>
+        <text x="274" y="340" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#8996A6">MAR 2026</text>
+        <text x="604" y="340" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="#8996A6">NOV 2026</text>
+        <path class="bdt-area" d="M56.0 250.7 L57.2 242.1 L297.7 216.2 L451.4 115.0 L468.5 124.5 L477.1 108.3 L501.5 122.8 L536.9 73.4 L566.2 112.1 L604.0 107.1 L604.0 316 L56.0 316 Z" fill="#E8792B" opacity=".14"/>
+        <path class="bdt-line" d="M56.0 250.7 L57.2 242.1 L297.7 216.2 L451.4 115.0 L468.5 124.5 L477.1 108.3 L501.5 122.8 L536.9 73.4 L566.2 112.1 L604.0 107.1" fill="none" stroke="#E8792B" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" pathLength="1"/>
+        <g class="bdt-pin" style="--t:.2s"><line x1="56.0" y1="250.7" x2="56.0" y2="130.7" stroke="#ECE8DE" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="56.0" cy="250.7" r="6" fill="#ECE8DE"/><path d="M41.0 126.69999999999999 a15 13 0 0 1 30 0 Z" fill="#F2B705"/><rect x="37.0" y="124.69999999999999" width="38" height="5" rx="2" fill="#F2B705"/><text x="78.0" y="122.69999999999999" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#ECE8DE">MAHDI JOINS</text></g>
+        <g class="bdt-pin" style="--t:2.1s"><circle cx="536.9" cy="73.4" r="7" fill="#E8792B" stroke="#12233A" stroke-width="3"/><text x="536.9" y="57.400000000000006" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#E8792B">PEAK $85.41</text></g>
+        <g class="bdt-pin" style="--t:2.4s"><circle cx="604.0" cy="107.1" r="6" fill="#ECE8DE"/><text x="604.0" y="133.1" text-anchor="end" font-family="JetBrains Mono, monospace" font-weight="700" font-size="12" fill="#ECE8DE">$73.57</text></g>
+      </svg>
+        <p class="bdt-src">Selected closing prices, TSX:BDT, CAD. Sources: Yahoo Finance, StockAnalysis, EODData.</p>
+      </div>
+      <div class="bdt-side">
+        <div class="bdt-stats">
+          <div class="bdt-stat" data-r style="--d:3"><span class="k">Day 1 · Sept 3, 2025</span><span class="v">$22.98</span><span class="s">Closing price the day I started</span></div>
+          <div class="bdt-stat" data-r style="--d:4"><span class="k">Day 2 · Sept 4, 2025</span><span class="v up">+13.2%</span><span class="s">Immediate impact, clearly</span></div>
+          <div class="bdt-stat" data-r style="--d:5"><span class="k">Peak · Oct 2, 2026</span><span class="v up">+271.7%</span><span class="s">Closed at $85.41</span></div>
+          <div class="bdt-stat" data-r style="--d:6"><span class="k">Since day 1 · Nov 26, 2026</span><span class="v up">+220.1%</span><span class="s">Closed at $73.57</span></div>
+        </div>
+        <div class="bdt-live" data-r style="--d:7">
+          <p class="k">Live · TSX:BDT</p>
+          <!-- TradingView single-quote widget: live price and today's change (about 15 min delayed). Needs internet. -->
+          <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+            {"symbol":"TSX:BDT","width":"100%","isTransparent":true,"colorTheme":"dark","locale":"en"}
+            </script>
+          </div>
+          <p class="bdt-src">Price and today’s change from TradingView, delayed about 15 minutes. Needs an internet connection.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
